@@ -133,7 +133,7 @@ site](https://extensions.gnome.org/extension/1714/ssh-search-provider-reborn/).
 Or download the zip file from the GitHub [releases
 page](https://github.com/F-i-f/ssh-search-provider/releases) and unzip
 [the
-file](https://github.com/F-i-f/ssh-search-provider/releases/download/v7/ssh-search-provider@extensions.gnome-shell.fifi.org.v7.shell-extension.zip)
+file](https://github.com/F-i-f/ssh-search-provider/releases/download/v8/ssh-search-provider@extensions.gnome-shell.fifi.org.v8.shell-extension.zip)
 in the
 `~/.local/share/gnome-shell/extensions/ssh-search-provider@extensions.gnome-shell.fifi.org`
 directory (you may have to create the directory).
@@ -157,6 +157,18 @@ directory (you may have to create the directory).
 - To build the extension zip files, run: `ninja -C build extension.zip`, the extension will be found under `build/extension.zip`.
 
 ## Changelog
+
+### Version 8
+#### March 25, 2021
+
+- Gnome-shell 40.0 compatibility.
+- Update extensions for Gnome-Shell 40.0.
+- Update preferences for Gtk4.
+- Update meson-gse to latest:
+  - Now prints the GJS version in the system log at start-up (if debug
+	is enabled).
+  - Support more mozjs version (78, 68, 52) for build-time syntax
+	checks (`ninja test`).
 
 ### Version 7
 #### October 6, 2020
@@ -287,7 +299,7 @@ Bugs fixed:
  -->
 <!--  LocalWords:  extensions' Bernd Schlapsi Troin Fif dconf prepend
  -->
-<!--  LocalWords:  ES6 gse Guake RXVT Tilix XTerm 's IPv6 eg
+<!--  LocalWords:  ES6 gse Guake RXVT Tilix XTerm IPv6 eg Gtk4 GJS
  -->
-<!--  LocalWords:  wildcards merchantability
+<!--  LocalWords:  wildcards merchantability mozjs README md
  -->
