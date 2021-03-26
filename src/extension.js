@@ -16,6 +16,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 const Main = imports.ui.main;
+const MainLoop = imports.mainloop;
+const Lang = imports.lang;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const St = imports.gi.St;
@@ -485,6 +487,7 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
         this._settings = null;
         this._sshSearchProvider = null;
         this._searchResults = null;
+        this._delayedRegistration = null;
     }
 
     _on_debug_change() {
@@ -537,13 +540,22 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
                                                                               this._on_terminal_application_change.bind(this));
         }
 
-        this._registerProvider();
+        this._delayedRegistration = MainLoop.idle_add(Lang.bind(this, function() {
+            this._registerProvider();
+            this._delayedRegistration = null;
+        }));
 
         this._logger.log_debug('extension enabled');
     }
 
     _unregisterProvider() {
         this._logger.log_debug('SshSearchProviderExtension._unregisterProvider()');
+
+        if (this._delayedRegistration !== null) {
+            MainLoop.source_remove(this._delayedRegistration);
+            this._delayedRegistration = null;
+        }
+
         if ( this._sshSearchProvider ) {
             this._searchResults._unregisterProvider(this._sshSearchProvider);
             this._sshSearchProvider._cleanup();
