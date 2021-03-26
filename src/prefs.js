@@ -156,7 +156,7 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	this.copyright_label = new Gtk.Label({
 	    use_markup: true,
 	    label: '<span size="small">'
-		+ _('Copyright © 2017-2020 Philippe Troin (<a href="https://github.com/F-i-f">F-i-f</a> on GitHub)')
+		+ _('Copyright © 2017-2021 Philippe Troin (<a href="https://github.com/F-i-f">F-i-f</a> on GitHub)')
 		+ '</span>\n<span size="small">'
 		+ _('Copyright © 2013 Bernd Schlapsi')
 		+ '</span>',

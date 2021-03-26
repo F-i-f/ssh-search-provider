@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ssh-search-provider\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-11 18:40-0700\n"
+"POT-Creation-Date: 2021-03-25 23:38-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/extension.js:267
+#: src/extension.js:269
 msgid "SSH"
 msgstr ""
 
@@ -33,33 +33,37 @@ msgstr ""
 msgid "Terminal Application:"
 msgstr ""
 
-#: src/prefs.js:114
+#: src/prefs.js:124
 msgid "Arguments:"
 msgstr ""
 
-#: src/prefs.js:125
+#: src/prefs.js:135
 msgid "Pass SSH command line as a single argument:"
 msgstr ""
 
-#: src/prefs.js:136
+#: src/prefs.js:146
 msgid "Debug:"
 msgstr ""
 
-#: src/prefs.js:149
+#: src/prefs.js:159
 msgid ""
-"Copyright © 2017-2020 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
+"Copyright © 2017-2021 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
 "i-f</a> on GitHub)"
 msgstr ""
 
-#: src/prefs.js:151
+#: src/prefs.js:161
 msgid "Copyright © 2013 Bernd Schlapsi"
 msgstr ""
 
-#: src/prefs.js:163
+#: src/prefs.js:181
 msgid "Choose Terminal Emulator"
 msgstr ""
 
-#: src/prefs.js:168
+#: src/prefs.js:185
+msgid "Cancel"
+msgstr ""
+
+#: src/prefs.js:186
 msgid "Select"
 msgstr ""
 

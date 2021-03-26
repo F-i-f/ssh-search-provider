@@ -2,13 +2,12 @@
 # Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the tweaks-system-menu package.
 # Philippe Troin, 2019.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ssh-search-provider\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-11 18:40-0700\n"
-"PO-Revision-Date: 2020-03-11 16:42-0700\n"
+"POT-Creation-Date: 2021-03-25 23:38-0700\n"
+"PO-Revision-Date: 2021-03-25 23:40-0700\n"
 "Last-Translator: Philippe Troin <F-i-f @ github>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -16,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/extension.js:267
+#: src/extension.js:269
 msgid "SSH"
 msgstr "SSH"
 
@@ -32,35 +31,39 @@ msgstr "Version"
 msgid "Terminal Application:"
 msgstr "Émulateur de terminal :"
 
-#: src/prefs.js:114
+#: src/prefs.js:124
 msgid "Arguments:"
 msgstr "Arguments :"
 
-#: src/prefs.js:125
+#: src/prefs.js:135
 msgid "Pass SSH command line as a single argument:"
 msgstr "Passer la ligne de commande SSH en un unique argument :"
 
-#: src/prefs.js:136
+#: src/prefs.js:146
 msgid "Debug:"
 msgstr "Débogage :"
 
-#: src/prefs.js:149
+#: src/prefs.js:159
 msgid ""
-"Copyright © 2017-2020 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
+"Copyright © 2017-2021 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
 "i-f</a> on GitHub)"
 msgstr ""
-"Copyright © 2017-2020 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
+"Copyright © 2017-2021 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
 "i-f</a> sur GitHub)"
 
-#: src/prefs.js:151
+#: src/prefs.js:161
 msgid "Copyright © 2013 Bernd Schlapsi"
 msgstr "Copyright © 2013 Bernd Schlapsi"
 
-#: src/prefs.js:163
+#: src/prefs.js:181
 msgid "Choose Terminal Emulator"
 msgstr "Choisir un émulateur de terminal"
 
-#: src/prefs.js:168
+#: src/prefs.js:185
+msgid "Cancel"
+msgstr "Annuler"
+
+#: src/prefs.js:186
 msgid "Select"
 msgstr "Choisir"
 
