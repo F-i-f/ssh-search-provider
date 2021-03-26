@@ -1,5 +1,5 @@
 // Ssh Search Provider for Gnome Shell
-// Copyright (C) 2017-2019 Philippe Troin (F-i-f on Github)
+// Copyright (C) 2017-2019, 2021 Philippe Troin (F-i-f on Github)
 // Copyright (c) 2013 Bernd Schlapsi
 //
 // This program is free software: you can redistribute it and/or modify
@@ -484,6 +484,7 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
         this._onTerminalApplicationChangedSignal = null;
         this._settings = null;
         this._sshSearchProvider = null;
+        this._searchResults = null;
     }
 
     _on_debug_change() {
@@ -501,7 +502,7 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
         this._logger.log_debug('SshSearchProviderExtension._registerProvider()');
         if ( ! this._sshSearchProvider) {
             this._sshSearchProvider = new SshSearchProvider(this);
-            Main.overview.viewSelector._searchResults._registerProvider(this._sshSearchProvider);
+            this._searchResults._registerProvider(this._sshSearchProvider);
         }
     }
 
@@ -513,6 +514,15 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
 
         if ( ! this._settings ) {
             this._settings = Convenience.getSettings();
+        }
+
+        // Gnome-Shell 40 compatibility
+        if ( Main.overview._overview.controls !== undefined) {
+            // GS 40+
+            this._searchResults = Main.overview._overview.controls._searchController._searchResults;
+        } else {
+            // GS 38-
+            this._searchResults = Main.overview.viewSelector._searchResults;
         }
 
         this._on_debug_change();
@@ -535,7 +545,7 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
     _unregisterProvider() {
         this._logger.log_debug('SshSearchProviderExtension._unregisterProvider()');
         if ( this._sshSearchProvider ) {
-            Main.overview.viewSelector._searchResults._unregisterProvider(this._sshSearchProvider);
+            this._searchResults._unregisterProvider(this._sshSearchProvider);
             this._sshSearchProvider._cleanup();
             this._sshSearchProvider = null;
         }
@@ -557,6 +567,7 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
             this._onDebugChangedSignal = null;
         }
 
+        this._searchResults = null;
         this._settings = null;
 
         this._logger.log_debug('extension disabled');
