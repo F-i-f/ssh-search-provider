@@ -1,5 +1,5 @@
 // Ssh Search Provider for Gnome Shell
-// Copyright (C) 2019, 2020 Philippe Troin (F-i-f on Github)
+// Copyright (C) 2019-2021 Philippe Troin (F-i-f on Github)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -93,14 +93,24 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	this.term_app_label.set_tooltip_text(descr);
 
 	let app_desktop_file = this._settings.get_string('terminal-application');
-	let app_control_dict = { label: app_desktop_file };
+	this.term_app_control_image  = new Gtk.Image();
+	this.term_app_control_label = new Gtk.Label({label: app_desktop_file});
 	let app_info = Gio.DesktopAppInfo.new(app_desktop_file);
 	if (app_info != null) {
-	    app_control_dict.label = app_info.get_display_name();
-	    app_control_dict.image  = new Gtk.Image({ gicon: app_info.get_icon() });
-	    app_control_dict.always_show_image = true;
+	    this.term_app_control_image.gicon = app_info.get_icon();
+	    this.term_app_control_label.label = app_info.get_display_name();
 	}
-	this.term_app_control = new Gtk.Button(app_control_dict);
+	this.term_app_control_box = new Gtk.Box({orientation: Gtk.Orientation.HORIZONTAL, homogeneous: false, spacing: 10});
+	if (this.term_app_control_box.append !== undefined) {
+	    // Gtk4+
+	    this.term_app_control_box.append(this.term_app_control_image);
+	    this.term_app_control_box.append(this.term_app_control_label);
+	} else {
+	    // Gtk3-
+	    this.term_app_control_box.add(this.term_app_control_image);
+	    this.term_app_control_box.add(this.term_app_control_label);
+	}
+	this.term_app_control = new Gtk.Button({child: this.term_app_control_box});
 	this.term_app_control.set_tooltip_text(descr);
 	this.term_app_control.connect('clicked', this._on_click_terminal_app.bind(this));
 
@@ -160,15 +170,23 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
     }
 
     _on_click_terminal_app() {
+	let root;
+	if (this.get_root !== undefined) {
+	    // Gtk4+
+	    root = this.get_root();
+	} else {
+	    // Gtk3-
+	    root = this.get_toplevel()
+	}
 	let dialog = new Gtk.Dialog({ title: _("Choose Terminal Emulator"),
-				      transient_for: this.get_toplevel(),
+				      transient_for: root,
 				      use_header_bar: true,
 				      modal: true });
-	dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL);
+	dialog.add_button(_("Cancel"), Gtk.ResponseType.CANCEL);
 	let addButton = dialog.add_button(_("Select"), Gtk.ResponseType.OK);
 	dialog.set_default_response(Gtk.ResponseType.CANCEL);
 
-	let chooser = new Gtk.AppChooserWidget({ show_all: true });
+	let chooser = new Gtk.AppChooserWidget({ show_all: true, hexpand: true, vexpand:true });
 
 	chooser.connect('application-activated', (w, appInfo) => {
 	    dialog.response(Gtk.ResponseType.OK);
@@ -176,7 +194,13 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	chooser.connect('application-selected', (w, appInfo) => {
 	    dialog.set_default_response(Gtk.ResponseType.OK);
 	});
-	dialog.get_content_area().add(chooser);
+	if (dialog.get_content_area().append !== undefined) {
+	    // Gtk4+
+	    dialog.get_content_area().append(chooser);
+	} else {
+	    dialog.get_content_area().add(chooser);
+	    // Gtk3-
+	}
 	dialog._settings = this._settings;
 
 	dialog.connect('response', (dialog, id) => {
@@ -191,19 +215,23 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 
 	    dialog.destroy();
 	});
-	dialog.show_all();
+	if (dialog.show_all !== undefined) {
+	    // Gtk3-
+	    dialog.show_all();
+	} else {
+	    // Gtk4+
+	    dialog.show();
+	}
     }
 
     _on_terminal_application_change() {
 	let app_desktop_file = this._settings.get_string('terminal-application');
 	let app_info = Gio.DesktopAppInfo.new(app_desktop_file);
 	if (app_info != null) {
-	    this.term_app_control.label = app_info.get_display_name();
-	    this.term_app_control.image  = new Gtk.Image({ gicon: app_info.get_icon() });
-	    this.term_app_control.always_show_image = true;
+	    this.term_app_control_label.label = app_info.get_display_name();
+	    this.term_app_control_image.gicon = app_info.get_icon();
 	} else {
-	    this.term_app_control.label = app_desktop_file;
-	    this.term_app_control.always_show_image = false;
+	    this.term_app_control_label.label = app_desktop_file;
 	}
     }
 
