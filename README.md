@@ -160,7 +160,7 @@ directory (you may have to create the directory).
 
 ### Version 9
 
-- Gnome-shell 40 compatibility.
+- Gnome-shell 41 compatibility.
 - Update meson-gse to latest:
   - Bugfix for preferences logging.
 - Add Dutch translation (courtesy of @Vistaus).
