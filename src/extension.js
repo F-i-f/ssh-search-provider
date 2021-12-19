@@ -38,20 +38,6 @@ const DEFAULT_TERMINAL_ARGS_KEY = 'exec-arg';
 const FALLBACK_TERMINAL = { exec: 'gnome-terminal', args: '--', single: false };
 const HOST_SEARCHSTRING = 'host ';
 
-// ByteArray.toString() doesn't work as expected in Gnome-Shell 3.28-
-// Test & provide a wrapper
-var ByteArray_toString;
-
-if (ByteArray.toString(ByteArray.fromString('X')) == 'X') {
-    ByteArray_toString = function(x) {
-        return ByteArray.toString(x);
-    }
-} else {
-    ByteArray_toString = function(x) {
-        return String(x);
-    }
-}
-
 // A generic file, source of host names
 const HostsSourceFile = class HostsSourceFile {
 
@@ -196,7 +182,7 @@ const HostsSourceFile = class HostsSourceFile {
             let hosts = [];
             if (file.query_exists (null)) {
                 let contents = this._canonicalFile.load_contents(null);
-                let filelines = ByteArray_toString(contents[1]).trim().split('\n');
+                let filelines = ByteArray.toString(contents[1]).trim().split('\n');
                 for (let i in this.parse(filelines)) {
                     hosts.push(i);
                 }
