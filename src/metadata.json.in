@@ -4,8 +4,6 @@
   "name": "SSH Search Provider Reborn",
   "settings-schema": "org.gnome.shell.extensions.ssh-search-provider",
   "shell-version": [
-    "3.28",
-    "3.30",
     "3.32",
     "3.33.90",
     "3.34",

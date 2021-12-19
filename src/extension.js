@@ -25,7 +25,6 @@ const ByteArray = imports.byteArray;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
 
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
@@ -515,7 +514,7 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
         }
 
         if ( ! this._settings ) {
-            this._settings = Convenience.getSettings();
+            this._settings = ExtensionUtils.getSettings();
         }
 
         // Gnome-Shell 40 compatibility
@@ -587,7 +586,7 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
 };
 
 function init() {
-    Convenience.initTranslations();
+    ExtensionUtils.initTranslations();
     return new SshSearchProviderExtension();
 }
 

@@ -20,7 +20,6 @@ const Gtk = imports.gi.Gtk;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
 
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
@@ -46,7 +45,7 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	this.column_spacing = this.row_spacing;
 	this.orientation = Gtk.Orientation.VERTICAL;
 
-	this._settings = Convenience.getSettings();
+	this._settings = ExtensionUtils.getSettings();
 	this._logger = new Logger.Logger('Ssh-Search-Provider/prefs');
 	this._logger.set_debug(this._settings.get_boolean('debug'));
 
@@ -238,7 +237,7 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 });
 
 function init() {
-    Convenience.initTranslations();
+    ExtensionUtils.initTranslations();
 }
 
 function buildPrefsWidget() {
