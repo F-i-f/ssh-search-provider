@@ -17,7 +17,6 @@
 
 const Main = imports.ui.main;
 const MainLoop = imports.mainloop;
-const Lang = imports.lang;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const St = imports.gi.St;
@@ -540,10 +539,10 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
                                                                               this._on_terminal_application_change.bind(this));
         }
 
-        this._delayedRegistration = MainLoop.idle_add(Lang.bind(this, function() {
+        this._delayedRegistration = MainLoop.idle_add((function() {
             this._registerProvider();
             this._delayedRegistration = null;
-        }));
+        }).bind(this));
 
         this._logger.log_debug('extension enabled');
     }
