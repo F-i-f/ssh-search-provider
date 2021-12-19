@@ -159,8 +159,9 @@ directory (you may have to create the directory).
 ## Changelog
 
 ### Version 9
+#### December 18, 2021
 
-- Gnome-shell 41 compatibility.
+- Gnome Shell 41 compatibility.
 - Update meson-gse to latest:
   - Bugfix for preferences logging.
 - Add Dutch translation (courtesy of @Vistaus).
