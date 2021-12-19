@@ -262,7 +262,7 @@ const SshSearchProvider = class SshSearchProvider {
 
         this._logger.log_debug('SshSearchProvider.constructor()');
 
-        this.id = imports.misc.extensionUtils.getCurrentExtension().uuid;
+        this.id = ExtensionUtils.getCurrentExtension().uuid;
         this.appInfo = Gio.DesktopAppInfo.new(this._settings.get_string('terminal-application'));
         this.appInfo.get_name = function() { return _('SSH'); };
         this.title = "SSHSearch";
