@@ -133,7 +133,7 @@ site](https://extensions.gnome.org/extension/1714/ssh-search-provider-reborn/).
 Or download the zip file from the GitHub [releases
 page](https://github.com/F-i-f/ssh-search-provider/releases) and unzip
 [the
-file](https://github.com/F-i-f/ssh-search-provider/releases/download/v9/ssh-search-provider@extensions.gnome-shell.fifi.org.v9.shell-extension.zip)
+file](https://github.com/F-i-f/ssh-search-provider/releases/download/v10/ssh-search-provider@extensions.gnome-shell.fifi.org.v10.shell-extension.zip)
 in the
 `~/.local/share/gnome-shell/extensions/ssh-search-provider@extensions.gnome-shell.fifi.org`
 directory (you may have to create the directory).
@@ -157,6 +157,23 @@ directory (you may have to create the directory).
 - To build the extension zip files, run: `ninja -C build extension.zip`, the extension will be found under `build/extension.zip`.
 
 ## Changelog
+
+### Version 10
+#### December 22, 2021
+
+- Declare compatibility with version 40 and 41 of Gnome Shell instead
+  of using minor versions (40.0 and 41.1).  This should clear reports
+  of the extension being incompatible with well-supported versions.
+- Drop compatibility with Gnome Shell 3.28 and 3.30 (which do not have
+  getSettings/initTranslations in ExtensionUtils).
+- Update meson-gse:
+  - Fix build issues with meson 0.60.0.
+  - Bump minimum meson version to 0.50.0.
+- Clean up code:
+  - Remove Lang imports.
+  - Use ExtensionUtils for getSettings/initTranslations instead of
+	using meson-gse's convenience.js.
+  - Drop old Gnome Shell 3.28 compatibility code.
 
 ### Version 9
 #### December 18, 2021
@@ -307,7 +324,9 @@ Bugs fixed:
  -->
 <!--  LocalWords:  extensions' Bernd Schlapsi Troin Fif dconf prepend
  -->
-<!--  LocalWords:  ES6 gse Guake RXVT Tilix XTerm IPv6 eg Gtk4 GJS
+<!--  LocalWords:  ES6 gse Guake RXVT Tilix XTerm IPv6 eg Gtk4 GJS js
  -->
 <!--  LocalWords:  wildcards merchantability mozjs README md Vistaus
+ -->
+<!--  LocalWords:  getSettings initTranslations ExtensionUtils gse's
  -->
