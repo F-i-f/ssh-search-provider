@@ -3,7 +3,7 @@ SSH Search Provider Reborn
 
 [![Build Status](https://travis-ci.org/F-i-f/ssh-search-provider.svg?branch=master)](https://travis-ci.org/F-i-f/ssh-search-provider)
 
-A gnome-shell extension which searches the ssh config and known_hosts
+A Gnome Shell extension which searches the ssh config and known_hosts
 file and provides the found ssh connections in your shell overview.
 
 ![Screenshot](docs/screenshot.jpg)
@@ -130,13 +130,14 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 Install directly from the [Gnome Shell Extensions
 site](https://extensions.gnome.org/extension/1714/ssh-search-provider-reborn/).
 
-Or download the zip file from the GitHub [releases
-page](https://github.com/F-i-f/ssh-search-provider/releases) and unzip
-[the
-file](https://github.com/F-i-f/ssh-search-provider/releases/download/v10/ssh-search-provider@extensions.gnome-shell.fifi.org.v10.shell-extension.zip)
-in the
-`~/.local/share/gnome-shell/extensions/ssh-search-provider@extensions.gnome-shell.fifi.org`
-directory (you may have to create the directory).
+Or download the [zip
+file](https://github.com/F-i-f/ssh-search-provider/releases/download/v11/ssh-search-provider@extensions.gnome-shell.fifi.org.v11.shell-extension.zip)
+from the GitHub [releases
+page](https://github.com/F-i-f/ssh-search-provider/releases) and run:
+
+``` shell
+gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v11.shell-extension.zip
+```
 
 ## Building from source
 
@@ -157,6 +158,13 @@ directory (you may have to create the directory).
 - To build the extension zip files, run: `ninja -C build extension.zip`, the extension will be found under `build/extension.zip`.
 
 ## Changelog
+
+### Version 11
+#### March 12, 2022
+
+- Gnome Shell 42 compatibility.
+- Update instructions to use `gnome-extensions` instead of manually
+  unzipping.
 
 ### Version 10
 #### December 22, 2021
