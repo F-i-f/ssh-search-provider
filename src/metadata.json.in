@@ -4,15 +4,7 @@
   "name": "SSH Search Provider Reborn",
   "settings-schema": "org.gnome.shell.extensions.ssh-search-provider",
   "shell-version": [
-    "3.32",
-    "3.33.90",
-    "3.34",
-    "3.35.92",
-    "3.36",
-    "3.38",
-    "40",
-    "41",
-    "42"
+    "43"
   ],
   "url": "https://github.com/F-i-f/ssh-search-provider",
   "uuid": "@uuid@",
