@@ -1,5 +1,5 @@
 // Ssh Search Provider for Gnome Shell
-// Copyright (C) 2017-2019, 2021 Philippe Troin (F-i-f on Github)
+// Copyright (C) 2017-2019, 2021, 2022 Philippe Troin (F-i-f on Github)
 // Copyright (c) 2013 Bernd Schlapsi
 //
 // This program is free software: you can redistribute it and/or modify
@@ -285,7 +285,7 @@ const SshSearchProvider = class SshSearchProvider {
                              icon_size: size });
     }
 
-    getResultMetas(resultIds, callback) {
+    async getResultMetas(resultIds, cancellable) {
         this._logger.log_debug('SshSearchProvider.getResultMetas('+resultIds+')');
         let results = [];
         for (let i = 0 ; i < resultIds.length; ++i ) {
@@ -294,7 +294,7 @@ const SshSearchProvider = class SshSearchProvider {
                            'createIcon': this._createIcon.bind(this)
                          });
         }
-        callback(results);
+        return results;
     }
 
     activateResult(id) {
@@ -348,7 +348,7 @@ const SshSearchProvider = class SshSearchProvider {
         return providerResults;
     }
 
-    getInitialResultSet(terms, cb) {
+    async getInitialResultSet(terms, cancellable) {
         this._logger.log_debug('SshSearchProvider.getInitialResultSet('+terms+')');
 
         // check if a found host-name begins like the search-term
@@ -390,10 +390,10 @@ const SshSearchProvider = class SshSearchProvider {
         this._logger.log_debug('SshSearchProvider.getInitialResultSet('+terms+') = '
                                + results.length + '[' + results + ']');
 
-        cb(results);
+        return results;
     }
 
-    getSubsearchResultSet(previousResults, terms, cb) {
+    async getSubsearchResultSet(previousResults, terms, cancellable) {
         this._logger.log_debug('SshSearchProvider.getSubsearchResultSet('+terms+')');
         let results;
 
@@ -409,8 +409,7 @@ const SshSearchProvider = class SshSearchProvider {
                  || (termAtIndex < 0 && this._lastSearchHadUserPart ) ) {
                 // If the query switches from having to not having a user
                 // part, we must restart the search from scratch.
-                this.getInitialResultSet(terms, cb);
-                return;
+                return this.getInitialResultSet(terms, cancellable);
             }
             let termHost = term;
             if (termAtIndex >= 0) {
@@ -430,7 +429,7 @@ const SshSearchProvider = class SshSearchProvider {
         }
         this._logger.log_debug('SshSearchProvider.getSubsearchResultSet('+terms+') = '
                                + results.length + '[' + results + ']');
-        cb(results);
+        return results;
     }
 
     // try to find the default terminal app. fallback is gnome-terminal
