@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ssh-search-provider\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-02 08:59-0800\n"
-"PO-Revision-Date: 2022-03-02 09:00-0800\n"
+"POT-Creation-Date: 2024-01-09 12:45-0800\n"
+"PO-Revision-Date: 2024-01-09 12:46-0800\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -48,9 +48,9 @@ msgstr "Foutopsporing:"
 
 #: src/prefs.js:158
 msgid ""
-"Copyright © 2017-2022 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
+"Copyright © 2017-2024 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
 "i-f</a> on GitHub)"
-msgstr "Copyright © 2017-2022 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-i-f</a> op GitHub)"
+msgstr "Copyright © 2017-2024 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-i-f</a> op GitHub)"
 
 #: src/prefs.js:160
 msgid "Copyright © 2013 Bernd Schlapsi"
