@@ -1,8 +1,6 @@
 SSH Search Provider Reborn
 ===========================
 
-[![Build Status](https://travis-ci.org/F-i-f/ssh-search-provider.svg?branch=master)](https://travis-ci.org/F-i-f/ssh-search-provider)
-
 A Gnome Shell extension which searches the ssh config and known_hosts
 file and provides the found ssh connections in your shell overview.
 
