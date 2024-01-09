@@ -3,7 +3,7 @@
 # This file has been generated from meson-gse/meson.build.m4 and meson-gse.build
 
 # ssh-search-provider - Add ssh hosts as search results
-# Copyright (C) 2019-2022 Philippe Troin (F-i-f on Github)
+# Copyright (C) 2019-2024 Philippe Troin (F-i-f on Github)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 
 # Boilerplate
 project('ssh-search-provider',
-	version: '12',
+	version: '13',
 	meson_version: '>= 0.50.0',
 	license: 'GPL3' )
 
