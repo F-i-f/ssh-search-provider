@@ -36,7 +36,7 @@
 
 # Boilerplate
 project('ssh-search-provider',
-	version: '13',
+	version: '14',
 	meson_version: '>= 0.50.0',
 	license: 'GPL3' )
 
