@@ -1,5 +1,5 @@
 // Ssh Search Provider for Gnome Shell
-// Copyright (C) 2017-2019, 2021, 2022 Philippe Troin (F-i-f on Github)
+// Copyright (C) 2017-2024 Philippe Troin (F-i-f on Github)
 // Copyright (c) 2013 Bernd Schlapsi
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,21 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-const Main = imports.ui.main;
-const MainLoop = imports.mainloop;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const St = imports.gi.St;
-const Util = imports.misc.util;
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+import * as Util                 from 'resource:///org/gnome/shell/misc/util.js';
+import * as Main                 from 'resource:///org/gnome/shell/ui/main.js';
+import Gio                       from 'gi://Gio';
+import GLib                      from 'gi://GLib';
+import St                        from 'gi://St';
 const ByteArray = imports.byteArray;
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-
-const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
-const _ = Gettext.gettext;
-
-const Logger = Me.imports.logger;
+import * as Logger               from './logger.js';
 
 // Settings
 const DEFAULT_TERMINAL_SCHEMA = 'org.gnome.desktop.default-applications.terminal';
@@ -39,7 +33,7 @@ const FALLBACK_TERMINAL = { exec: 'gnome-terminal', args: '--', single: false };
 const HOST_SEARCHSTRING = 'host ';
 
 // A generic file, source of host names
-const HostsSourceFile = class HostsSourceFile {
+class HostsSourceFile {
 
     constructor(logger, path) {
         this._logger = logger;
@@ -195,7 +189,7 @@ const HostsSourceFile = class HostsSourceFile {
 };
 
 // SSH config file
-const ConfigHostsSourceFile = class ConfigHostsSourceFile extends HostsSourceFile {
+class ConfigHostsSourceFile extends HostsSourceFile {
     parse(filelines) {
         let hostsDict = {};
 
@@ -219,7 +213,7 @@ const ConfigHostsSourceFile = class ConfigHostsSourceFile extends HostsSourceFil
 };
 
 // SSH Known hosts file
-const SshKnownHostsSourceFile = class SshKnownHostsSourceFile extends HostsSourceFile {
+class SshKnownHostsSourceFile extends HostsSourceFile {
     parse(filelines) {
         let hostsDict = {};
 
@@ -241,14 +235,14 @@ const SshKnownHostsSourceFile = class SshKnownHostsSourceFile extends HostsSourc
 };
 
 // The Search provider
-const SshSearchProvider = class SshSearchProvider {
+class SshSearchProvider {
     constructor(extension) {
         this._settings = extension._settings;
         this._logger = extension._logger;
 
         this._logger.log_debug('SshSearchProvider.constructor()');
 
-        this.id = ExtensionUtils.getCurrentExtension().uuid;
+        this.id = extension.metadata.uuid;
         this.appInfo = Gio.DesktopAppInfo.new(this._settings.get_string('terminal-application'));
         this.appInfo.get_name = function() { return _('SSH'); };
         this.title = "SSHSearch";
@@ -461,9 +455,10 @@ const SshSearchProvider = class SshSearchProvider {
 };
 
 // The extension
-const SshSearchProviderExtension = class SshSearchProviderExtension {
+export default class SshSearchProviderExtension extends Extension {
 
-    constructor() {
+    constructor(metadata) {
+        super(metadata);
         this._logger = null;
         this._debugSettingChangedConnection = null;
         this._onTerminalApplicationChangedSignal = null;
@@ -493,13 +488,12 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
     }
 
     enable() {
-
         if ( ! this._logger ) {
-            this._logger = new Logger.Logger('Ssh-Search-Provider');
+            this._logger = new Logger.Logger('Ssh-Search-Provider', this.metadata);
         }
 
         if ( ! this._settings ) {
-            this._settings = ExtensionUtils.getSettings();
+            this._settings = this.getSettings();
         }
 
         // Gnome-Shell 40 compatibility
@@ -523,9 +517,10 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
                                                                               this._on_terminal_application_change.bind(this));
         }
 
-        this._delayedRegistration = MainLoop.idle_add((function() {
+        this._delayedRegistration = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, (function() {
             this._registerProvider();
             this._delayedRegistration = null;
+            return GLib.SOURCE_REMOVE;
         }).bind(this));
 
         this._logger.log_debug('extension enabled');
@@ -535,7 +530,7 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
         this._logger.log_debug('SshSearchProviderExtension._unregisterProvider()');
 
         if (this._delayedRegistration !== null) {
-            MainLoop.source_remove(this._delayedRegistration);
+            GLib.source_remove(this._delayedRegistration);
             this._delayedRegistration = null;
         }
 
@@ -547,7 +542,6 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
     }
 
     disable() {
-
         this._logger.log_debug('SshSearchProviderExtension.disable()');
 
         this._unregisterProvider();
@@ -569,11 +563,6 @@ const SshSearchProviderExtension = class SshSearchProviderExtension {
         this._logger = null;
     }
 };
-
-function init() {
-    ExtensionUtils.initTranslations();
-    return new SshSearchProviderExtension();
-}
 
 // Local variables:
 // indent-tabs-mode: nil

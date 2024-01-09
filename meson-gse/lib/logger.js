@@ -1,5 +1,5 @@
 // meson-gse - Library for gnome-shell extensions
-// Copyright (C) 2019-2021 Philippe Troin (F-i-f on Github)
+// Copyright (C) 2019-2024 Philippe Troin (F-i-f on Github)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,31 +14,42 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const GLib = imports.gi.GLib;
+import GLib from 'gi://GLib';
 
-const Me = ExtensionUtils.getCurrentExtension();
+const loadModule = async (modulePaths) => {
+    for (const i of modulePaths) {
+	try {
+	    return await import(i);
+	} catch (e) {
+	}
+    }
+    return null;
+}
+const Config = await loadModule(['resource:///org/gnome/shell/misc/config.js',
+				 'resource:///org/gnome/Shell/Extensions/js/misc/config.js']);
+const System = imports.system;
 
-var Logger = class MesonGseLogger {
-    constructor(title) {
+export class Logger {
+    constructor(title, metadata) {
 	this._first_log = true;
+	this._metadata = metadata;
 	this._title = title;
 	this._debug = false;
     }
 
     get_version() {
-	return Me.metadata['version']+' / git '+Me.metadata['vcs_revision'];
+	return this._metadata['version']+' / git '+this._metadata['vcs_revision'];
     }
 
     log(text) {
 	if (this._first_log) {
 	    this._first_log = false;
 	    let msg = 'version ' + this.get_version();
-	    let gnomeShellVersion = imports.misc.config.PACKAGE_VERSION;
+	    let gnomeShellVersion = Config.PACKAGE_VERSION;
 	    if (gnomeShellVersion != undefined) {
 		msg += ' on Gnome-Shell ' + gnomeShellVersion;
 	    }
-	    let gjsVersion = imports.system.version;
+	    let gjsVersion = System.version;
 	    if (gjsVersion != undefined) {
 		let gjsVersionMajor = Math.floor(gjsVersion / 10000);
 		let gjsVersionMinor = Math.floor((gjsVersion % 10000) / 100);

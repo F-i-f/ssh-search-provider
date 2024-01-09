@@ -14,17 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-const Gio = imports.gi.Gio;
-const GObject = imports.gi.GObject;
-const Gtk = imports.gi.Gtk;
+import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import Adw                                  from 'gi://Adw';
+import Gio                                  from 'gi://Gio';
+import Gtk                                  from 'gi://Gtk';
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-
-const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
-const _ = Gettext.gettext;
-
-const Logger = Me.imports.logger;
+import * as Logger                          from './logger.js';
 
 const ArgumentsForTerminalApp = {
     'guake.desktop':		  { args: '-n new -e', single: true },
@@ -34,19 +29,20 @@ const ArgumentsForTerminalApp = {
     'xterm.desktop':		  { args: '-e',        single: true },
 }
 
-const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderSettings extends Gtk.Grid {
+export default class SshSearchProviderSettings extends ExtensionPreferences {
 
-    setup() {
-	this.margin_top = 12;
-	this.margin_bottom = this.margin_top;
-	this.margin_start = 48;
-	this.margin_end = this.margin_start;
-	this.row_spacing = 6;
-	this.column_spacing = this.row_spacing;
-	this.orientation = Gtk.Orientation.VERTICAL;
+    fillPreferencesWindow(window) {
+	this._grid = new Gtk.Grid();
+	this._grid.margin_top = 12;
+	this._grid.margin_bottom = this._grid.margin_top;
+	this._grid.margin_start = 48;
+	this._grid.margin_end = this._grid.margin_start;
+	this._grid.row_spacing = 6;
+	this._grid.column_spacing = this._grid.row_spacing;
+	this._grid.orientation = Gtk.Orientation.VERTICAL;
 
-	this._settings = ExtensionUtils.getSettings();
-	this._logger = new Logger.Logger('Ssh-Search-Provider/prefs');
+	this._settings = this.getSettings();
+	this._logger = new Logger.Logger('Ssh-Search-Provider/prefs', this.metadata);
 	this._logger.set_debug(this._settings.get_boolean('debug'));
 
 	let ypos = 1;
@@ -59,7 +55,7 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	    hexpand: true,
 	    halign: Gtk.Align.CENTER
 	});
-	this.attach(this.title_label, 1, ypos, 2, 1);
+	this._grid.attach(this.title_label, 1, ypos, 2, 1);
 
 	ypos += 1;
 
@@ -70,19 +66,19 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	    hexpand: true,
 	    halign: Gtk.Align.CENTER,
 	});
-	this.attach(this.version_label, 1, ypos, 2, 1);
+	this._grid.attach(this.version_label, 1, ypos, 2, 1);
 
 	ypos += 1;
 
 	this.link_label = new Gtk.Label({
 	    use_markup: true,
-	    label: '<span size="small"><a href="'+Me.metadata.url+'">'
-		+ Me.metadata.url + '</a></span>',
+	    label: '<span size="small"><a href="'+this.metadata.url+'">'
+		+ this.metadata.url + '</a></span>',
 	    hexpand: true,
 	    halign: Gtk.Align.CENTER,
-	    margin_bottom: this.margin_bottom
+	    margin_bottom: this._grid.margin_bottom
 	});
-	this.attach(this.link_label, 1, ypos, 2, 1);
+	this._grid.attach(this.link_label, 1, ypos, 2, 1);
 
 	ypos += 1;
 
@@ -100,21 +96,14 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	    this.term_app_control_label.label = app_info.get_display_name();
 	}
 	this.term_app_control_box = new Gtk.Box({orientation: Gtk.Orientation.HORIZONTAL, homogeneous: false, spacing: 10});
-	if (this.term_app_control_box.append !== undefined) {
-	    // Gtk4+
-	    this.term_app_control_box.append(this.term_app_control_image);
-	    this.term_app_control_box.append(this.term_app_control_label);
-	} else {
-	    // Gtk3-
-	    this.term_app_control_box.add(this.term_app_control_image);
-	    this.term_app_control_box.add(this.term_app_control_label);
-	}
+	this.term_app_control_box.append(this.term_app_control_image);
+	this.term_app_control_box.append(this.term_app_control_label);
 	this.term_app_control = new Gtk.Button({child: this.term_app_control_box});
 	this.term_app_control.set_tooltip_text(descr);
 	this.term_app_control.connect('clicked', this._on_click_terminal_app.bind(this));
 
-	this.attach(this.term_app_label,   1, ypos, 1, 1);
-	this.attach(this.term_app_control, 2, ypos, 1, 1);
+	this._grid.attach(this.term_app_label,   1, ypos, 1, 1);
+	this._grid.attach(this.term_app_control, 2, ypos, 1, 1);
 	this._settings.connect('changed::terminal-application', this._on_terminal_application_change.bind(this));
 
 	ypos += 1;
@@ -124,8 +113,8 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	this.term_app_args_label.set_tooltip_text(descr);
 	this.term_app_args_control = new Gtk.Entry();
 	this.term_app_args_control.set_tooltip_text(descr);
-	this.attach(this.term_app_args_label,   1, ypos, 1, 1);
-	this.attach(this.term_app_args_control, 2, ypos, 1, 1);
+	this._grid.attach(this.term_app_args_label,   1, ypos, 1, 1);
+	this._grid.attach(this.term_app_args_control, 2, ypos, 1, 1);
 	this._settings.bind('terminal-application-arguments', this.term_app_args_control, 'text', Gio.SettingsBindFlags.DEFAULT);
 
 	ypos += 1;
@@ -135,8 +124,8 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	this.ssh_single_arg_label.set_tooltip_text(descr);
 	this.ssh_single_arg_control = new Gtk.Switch({ halign: Gtk.Align.END });
 	this.ssh_single_arg_control.set_tooltip_text(descr);
-	this.attach(this.ssh_single_arg_label,   1, ypos, 1, 1);
-	this.attach(this.ssh_single_arg_control, 2, ypos, 1, 1);
+	this._grid.attach(this.ssh_single_arg_label,   1, ypos, 1, 1);
+	this._grid.attach(this.ssh_single_arg_control, 2, ypos, 1, 1);
 	this._settings.bind('ssh-command-single-argument', this.ssh_single_arg_control, 'active', Gio.SettingsBindFlags.DEFAULT);
 
 	ypos += 1;
@@ -146,8 +135,8 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	this.debug_label.set_tooltip_text(descr);
 	this.debug_control = new Gtk.Switch({halign: Gtk.Align.END});
 	this.debug_control.set_tooltip_text(descr);
-	this.attach(this.debug_label,   1, ypos, 1, 1);
-	this.attach(this.debug_control, 2, ypos, 1, 1);
+	this._grid.attach(this.debug_label,   1, ypos, 1, 1);
+	this._grid.attach(this.debug_control, 2, ypos, 1, 1);
 	this._settings.bind('debug', this.debug_control, 'active', Gio.SettingsBindFlags.DEFAULT);
 
 	ypos += 1;
@@ -161,22 +150,22 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 		+ '</span>',
 	    hexpand: true,
 	    halign: Gtk.Align.CENTER,
-	    margin_top: this.margin_bottom
+	    margin_top: this._grid.margin_top
 	});
-	this.attach(this.copyright_label, 1, ypos, 2, 1);
+	this._grid.attach(this.copyright_label, 1, ypos, 2, 1);
 
 	ypos += 1;
+
+	const group = new Adw.PreferencesGroup();
+	group.add(this._grid);
+	const page = new Adw.PreferencesPage();
+	page.add(group);
+
+	window.add(page);
     }
 
     _on_click_terminal_app() {
-	let root;
-	if (this.get_root !== undefined) {
-	    // Gtk4+
-	    root = this.get_root();
-	} else {
-	    // Gtk3-
-	    root = this.get_toplevel()
-	}
+	let root = this._grid.get_root();
 	let dialog = new Gtk.Dialog({ title: _("Choose Terminal Emulator"),
 				      transient_for: root,
 				      use_header_bar: true,
@@ -193,13 +182,7 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	chooser.connect('application-selected', (w, appInfo) => {
 	    dialog.set_default_response(Gtk.ResponseType.OK);
 	});
-	if (dialog.get_content_area().append !== undefined) {
-	    // Gtk4+
-	    dialog.get_content_area().append(chooser);
-	} else {
-	    dialog.get_content_area().add(chooser);
-	    // Gtk3-
-	}
+	dialog.get_content_area().append(chooser);
 	dialog._settings = this._settings;
 
 	dialog.connect('response', (dialog, id) => {
@@ -214,13 +197,7 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 
 	    dialog.destroy();
 	});
-	if (dialog.show_all !== undefined) {
-	    // Gtk3-
-	    dialog.show_all();
-	} else {
-	    // Gtk4+
-	    dialog.show();
-	}
+	dialog.show();
     }
 
     _on_terminal_application_change() {
@@ -234,19 +211,4 @@ const SshSearchProviderSettings = GObject.registerClass(class SshSearchProviderS
 	}
     }
 
-});
-
-function init() {
-    ExtensionUtils.initTranslations();
-}
-
-function buildPrefsWidget() {
-    let widget = new SshSearchProviderSettings();
-    widget.setup();
-    // show_all() is only available/necessary on GTK < 4.0.
-    if (widget.show_all !== undefined) {
-	widget.show_all();
-    }
-
-    return widget;
 }
