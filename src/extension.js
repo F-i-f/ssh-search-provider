@@ -21,7 +21,6 @@ import * as Main                 from 'resource:///org/gnome/shell/ui/main.js';
 import Gio                       from 'gi://Gio';
 import GLib                      from 'gi://GLib';
 import St                        from 'gi://St';
-const ByteArray = imports.byteArray;
 
 import * as Logger               from './logger.js';
 
@@ -176,7 +175,8 @@ class HostsSourceFile {
             let hosts = [];
             if (file.query_exists (null)) {
                 let contents = this._canonicalFile.load_contents(null);
-                let filelines = ByteArray.toString(contents[1]).trim().split('\n');
+                let decoder = new TextDecoder();
+                let filelines = decoder.decode(contents[1]).trim().split('\n');
                 for (let i in this.parse(filelines)) {
                     hosts.push(i);
                 }
