@@ -16,7 +16,7 @@
 
 gse_project({ssh-search-provider},
 	    {extensions.gnome-shell.fifi.org},
-	    {14},
+	    {15},
 {
 gse_sources	    += []
 gse_libs	    += [gse_lib_logger]

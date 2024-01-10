@@ -129,12 +129,12 @@ Install directly from the [Gnome Shell Extensions
 site](https://extensions.gnome.org/extension/1714/ssh-search-provider-reborn/).
 
 Or download the [zip
-file](https://github.com/F-i-f/ssh-search-provider/releases/download/v14/ssh-search-provider@extensions.gnome-shell.fifi.org.v14.shell-extension.zip)
+file](https://github.com/F-i-f/ssh-search-provider/releases/download/v15/ssh-search-provider@extensions.gnome-shell.fifi.org.v15.shell-extension.zip)
 from the GitHub [releases
 page](https://github.com/F-i-f/ssh-search-provider/releases) and run:
 
 ``` shell
-gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v14.shell-extension.zip
+gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v15.shell-extension.zip
 ```
 
 ## Building from source
@@ -156,6 +156,12 @@ gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v14
 - To build the extension zip files, run: `ninja -C build extension.zip`, the extension will be found under `build/extension.zip`.
 
 ## Changelog
+
+### Version 15
+#### January 10, 2024
+
+- Bugs fixed.
+- Code improved thanks to Gnome Shell code review.
 
 ### Version 14
 #### January 9, 2024
