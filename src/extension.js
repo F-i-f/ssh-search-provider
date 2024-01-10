@@ -244,7 +244,9 @@ class SshSearchProvider {
 
         this.id = extension.metadata.uuid;
         this.appInfo = Gio.DesktopAppInfo.new(this._settings.get_string('terminal-application'));
-        this.appInfo.get_name = function() { return _('SSH'); };
+        if (this.appInfo != null) {
+            this.appInfo.get_name = function() { return _('SSH'); };
+        }
         this.title = "SSHSearch";
 
         this._hostsSources = [];
@@ -275,7 +277,11 @@ class SshSearchProvider {
     }
 
     _createIcon(size) {
-        return new St.Icon({ gicon: this.appInfo.get_icon(),
+        let icon = this.appInfo?.get_icon();
+        if (! icon) {
+            icon = Gio.icon_new_for_string('applications-other');
+        }
+        return new St.Icon({ gicon: icon,
                              icon_size: size });
     }
 
