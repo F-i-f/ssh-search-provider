@@ -88,12 +88,8 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
 
 	const app_desktop_file = settings.get_string('terminal-application');
 	const term_app_control_image  = new Gtk.Image();
-	const term_app_control_label = new Gtk.Label({label: app_desktop_file});
-	const app_info = Gio.DesktopAppInfo.new(app_desktop_file);
-	if (app_info != null) {
-	    term_app_control_image.gicon = app_info.get_icon();
-	    term_app_control_label.label = app_info.get_display_name();
-	}
+	const term_app_control_label = new Gtk.Label();
+	this._on_terminal_application_change(settings, term_app_control_label, term_app_control_image);
 	const term_app_control_box = new Gtk.Box({orientation: Gtk.Orientation.HORIZONTAL, homogeneous: false, spacing: 10});
 	term_app_control_box.append(term_app_control_image);
 	term_app_control_box.append(term_app_control_label);
