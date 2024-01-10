@@ -14,7 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import GLib from 'gi://GLib';
+import GLib   from 'gi://GLib';
+import System from 'system';
 
 const loadModule = async (modulePaths) => {
     for (const i of modulePaths) {
@@ -27,7 +28,6 @@ const loadModule = async (modulePaths) => {
 }
 const Config = await loadModule(['resource:///org/gnome/shell/misc/config.js',
 				 'resource:///org/gnome/Shell/Extensions/js/misc/config.js']);
-const System = imports.system;
 
 export class Logger {
     constructor(title, metadata) {
