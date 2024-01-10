@@ -24,6 +24,7 @@ import * as Logger                          from './logger.js';
 const ArgumentsForTerminalApp = {
     'guake.desktop':		  { args: '-n new -e', single: true },
     'rxvt.desktop':		  { args: '-e',        single: false },
+    'org.gnome.Console.desktop':  { args: '--',        single: false },
     'org.gnome.Terminal.desktop': { args: '--',        single: false },
     'com.gexperts.Tilix.desktop': { args: '-e',        single: true },
     'xterm.desktop':		  { args: '-e',        single: true },
