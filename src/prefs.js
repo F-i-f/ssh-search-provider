@@ -202,6 +202,7 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
 	    term_app_control_image.gicon = app_info.get_icon();
 	} else {
 	    term_app_control_label.label = app_desktop_file;
+	    term_app_control_image.gicon = Gio.icon_new_for_string('applications-other');
 	}
     }
 
