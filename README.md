@@ -145,7 +145,7 @@ gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v16
 
 ### Running the build
 
-- Check out: `git clone https://github.com/F-i-f/ssh-search-provider`
+- Check out: `git clone --recurse-submodules https://github.com/F-i-f/ssh-search-provider`
 
 - `cd ssh-search-provider`
 
