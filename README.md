@@ -149,7 +149,7 @@ gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v16
 
 - `cd ssh-search-provider`
 
-- Run meson: `meson build`
+- Run meson: `meson setup build`
 
 - To install in your your gnome shell extensions' directory (~/.local/share/gnome-shell/extensions), run ninja: `ninja -C build install`
 
