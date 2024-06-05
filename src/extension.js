@@ -59,7 +59,7 @@ class HostsSourceFile {
     }
 
     cleanup() {
-        if (this._symlinkChangeMonitor != null) {
+        if (this._symlinkChangeMonitor !== null) {
             this._symlinkChangeMonitor.disconnect(this._symlinkChangeSignal);
             this._symlinkChangeSignal = null;
             this._symlinkChangeMonitor.cancel();
@@ -78,7 +78,7 @@ class HostsSourceFile {
     _changeLinkTarget(target) {
         this._symlinkTarget = target;
         this._path = this._symlinkTarget;
-        if (this._path[0] != '/') {
+        if (this._path[0] !== '/') {
             this._path = this._symlinkFile.get_parent().get_path() + '/' + this._path;
         }
         this._file = Gio.file_new_for_path(this._path);
@@ -87,26 +87,25 @@ class HostsSourceFile {
     }
 
     onSymlinkChange(filemonitor, file, other_file, event_type) {
-        if ( ( this._symlinkFile == null
-               || file.get_path() == this._symlinkFile.get_path()
-             ) && ( event_type == Gio.FileMonitorEvent.CHANGES_DONE_HINT
-                    || event_type == Gio.FileMonitorEvent.DELETED)) {
+        if ( ( this._symlinkFile === null
+               || file.get_path() === this._symlinkFile.get_path()
+             ) && ( event_type === Gio.FileMonitorEvent.CHANGES_DONE_HINT
+                    || event_type === Gio.FileMonitorEvent.DELETED)) {
 
             this._logger.log_debug('HostsSourceFile.onSymlinkChange('+file.get_path()+', '+event_type+')');
             let queryinfo;
-            let ex;
             try {
                 queryinfo = this._canonicalFile.query_info('standard',0, null);
             } catch (ex) {
                 this._logger.log_debug('HostsSourceFile.onSymlinkChange('+file.get_path()+'): '
                                        +'file doesn\'t exist: '+ex);
             }
-            if (queryinfo != null && queryinfo.get_is_symlink()) {
+            if (queryinfo !== null && queryinfo.get_is_symlink()) {
                 let curLinkTarget = queryinfo.get_symlink_target();
-                if (curLinkTarget == this._symlinkTarget) {
+                if (curLinkTarget === this._symlinkTarget) {
                     this._logger.log_debug('HostsSourceFile.onSymlinkChange('+file.get_path()+'): '
                                            +'symlink target still '+this._symlinkTarget);
-                } else if (this._symlinkTarget == null) {
+                } else if (this._symlinkTarget === null) {
                     this._logger.log_debug('HostsSourceFile.onSymlinkChange('+file.get_path()+'): '
                                            +'changed from regular to symlink to '+curLinkTarget);
 
@@ -130,7 +129,7 @@ class HostsSourceFile {
                     this.onFileChange(this._fileChangeMonitor, this._file, null, Gio.FileMonitorEvent.CHANGES_DONE_HINT);
                 }
             } else {
-                if (this._symlinkTarget == null) {
+                if (this._symlinkTarget === null) {
                     this._logger.log_debug('HostsSourceFile.onSymlinkChange('+file.get_path()+'): '
                                            +'still not a symlink');
                 } else {
@@ -161,13 +160,13 @@ class HostsSourceFile {
     }
 
     onFileChange(filemonitor, file, other_file, event_type) {
-        if (file.get_path() == this._file.get_path()
-            && (event_type == Gio.FileMonitorEvent.CHANGES_DONE_HINT
-                || event_type == Gio.FileMonitorEvent.DELETED)) {
+        if (file.get_path() === this._file.get_path()
+            && (event_type === Gio.FileMonitorEvent.CHANGES_DONE_HINT
+                || event_type === Gio.FileMonitorEvent.DELETED)) {
 
             this._logger.log_debug('HostsSourceFile.onFileChange('+file.get_path()+', '+event_type+')');
 
-            if (this._symlinkTarget == null) {
+            if (this._symlinkTarget === null) {
                 this._logger.log_debug('HostsSourceFile.onFileChange('+file.get_path()+'): triggering onSymlinkChange()');
                 this.onSymlinkChange(null, this._canonicalFile, null, event_type);
             }
@@ -196,12 +195,12 @@ class ConfigHostsSourceFile extends HostsSourceFile {
         // search for all lines which begins with "host"
         for (let i=0; i<filelines.length; i++) {
             let line = filelines[i].toString();
-            if (line.toLowerCase().lastIndexOf(HOST_SEARCHSTRING, 0) == 0) {
+            if (line.toLowerCase().lastIndexOf(HOST_SEARCHSTRING, 0) === 0) {
                 // read all hostnames in the host definition line
                 let hostnames = line.slice(HOST_SEARCHSTRING.length).split(' ');
                 for (let j=0; j<hostnames.length; j++) {
                     let h = hostnames[j];
-                    if ( h.indexOf('*') == -1 ) {
+                    if ( h.indexOf('*') === -1 ) {
                         hostsDict[h] = 1;
                     }
                 }
@@ -222,7 +221,7 @@ class SshKnownHostsSourceFile extends HostsSourceFile {
 
             // if hostname had a 60 char length, it looks like
             // the hostname is hashed and we ignore it here
-            if (hostnames.length > 0 && hostnames[0] != '#' && (hostnames.length != 60 || hostnames.search(',') >= 0)) {
+            if (hostnames.length > 0 && hostnames[0] !== '#' && (hostnames.length !== 60 || hostnames.search(',') >= 0)) {
                 hostnames = hostnames.split(',');
                 for (let j=0; j<hostnames.length; j++) {
                     hostsDict[hostnames[j]] = 1;
@@ -244,7 +243,7 @@ class SshSearchProvider {
 
         this.id = extension.metadata.uuid;
         this.appInfo = Gio.DesktopAppInfo.new(this._settings.get_string('terminal-application'));
-        if (this.appInfo != null) {
+        if (this.appInfo !== null) {
             this.appInfo.get_name = function() { return _('SSH'); };
         }
         this.title = "SSHSearch";
@@ -271,7 +270,7 @@ class SshSearchProvider {
     }
 
     // Search API
-    createResultObject(result, terms) {
+    createResultObject(_result, _terms) {
         // this._logger.log_debug('SshSearchProvider.createResultObject('+terms+')');
         return null;
     }
@@ -285,7 +284,7 @@ class SshSearchProvider {
                              icon_size: size });
     }
 
-    async getResultMetas(resultIds, cancellable) {
+    async getResultMetas(resultIds, _cancellable) {
         this._logger.log_debug('SshSearchProvider.getResultMetas('+resultIds+')');
         let results = [];
         for (let i = 0 ; i < resultIds.length; ++i ) {
@@ -313,20 +312,20 @@ class SshSearchProvider {
             host = host.slice(atIndex+1);
         }
 
-        if (host[0] == '[') {
+        if (host[0] === '[') {
             let parts = host.slice(1).split(']:');
-            if (parts.length == 2) {
+            if (parts.length === 2) {
                 host = parts[0];
                 port = parts[1];
             }
         }
 
-        if (user != null) {
+        if (user !== null) {
             host = user + '@' + host;
         }
 
         let sshCmd;
-        if (port == null) {
+        if (port === null) {
             sshCmd = ['ssh', host];
         } else {
             sshCmd = ['ssh', '-p', port, host];
@@ -348,7 +347,7 @@ class SshSearchProvider {
         return providerResults;
     }
 
-    async getInitialResultSet(terms, cancellable) {
+    async getInitialResultSet(terms, _cancellable) {
         this._logger.log_debug('SshSearchProvider.getInitialResultSet('+terms+')');
 
         // check if a found host-name begins like the search-term
@@ -359,7 +358,7 @@ class SshSearchProvider {
             let user = null;
             let host = terms[ti];
             let host_at_sign = host.indexOf('@');
-            if (host_at_sign == 0 || host_at_sign == host.length-1) {
+            if (host_at_sign === 0 || host_at_sign === host.length-1) {
                 // Invalid user name or nothing after @ sign: skip search term
                 continue;
             } else if (host_at_sign > 0) {
@@ -373,7 +372,7 @@ class SshSearchProvider {
                 for (let i=0; i < hostnames.length; i++) {
                     if (hostnames[i].indexOf(host) >= 0) {
                         let ssh_name = hostnames[i];
-                        if (user != null) {
+                        if (user !== null) {
                             ssh_name = user + '@' + ssh_name;
                         }
                         resultsDict[ssh_name] = 1;
@@ -401,7 +400,7 @@ class SshSearchProvider {
         for (let ti=0; ti < terms.length; ti++) {
             let term = terms[ti];
             let termAtIndex = term.indexOf('@');
-            if (termAtIndex == term.length-1) {
+            if (termAtIndex === term.length-1) {
                 // Skip term if nothing is present after the @ sign.
                 continue;
             }
@@ -434,7 +433,7 @@ class SshSearchProvider {
 
     // try to find the default terminal app. fallback is gnome-terminal
     _getDefaultTerminal() {
-        if (this.appInfo != null) {
+        if (this.appInfo !== null) {
             return {
                 exec: this.appInfo.get_string('Exec'),
                 args: this._settings.get_string('terminal-application-arguments'),
@@ -442,9 +441,8 @@ class SshSearchProvider {
             };
         }
 
-        let err;
         try {
-            if (Gio.Settings.list_schemas().indexOf(DEFAULT_TERMINAL_SCHEMA) == -1) {
+            if (Gio.Settings.list_schemas().indexOf(DEFAULT_TERMINAL_SCHEMA) === -1) {
                 return FALLBACK_TERMINAL;
             }
 
@@ -454,7 +452,8 @@ class SshSearchProvider {
                 'args': terminal_setting.get_string(DEFAULT_TERMINAL_ARGS_KEY),
                 'single': false
             };
-        } catch (err) {
+        } catch (ex) {
+            this._logger.log_debug('SshSearchProvider._getDefaultTerminal(): ' + ex);
             return FALLBACK_TERMINAL;
         }
     }

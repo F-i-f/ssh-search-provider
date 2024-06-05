@@ -87,7 +87,6 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
 	const term_app_label = new Gtk.Label({label: _("Terminal Application:"), halign: Gtk.Align.START});
 	term_app_label.set_tooltip_text(term_app_descr);
 
-	const app_desktop_file = settings.get_string('terminal-application');
 	const term_app_control_image  = new Gtk.Image();
 	const term_app_control_label = new Gtk.Label();
 	this._on_terminal_application_change(settings, term_app_control_label, term_app_control_image);
@@ -167,21 +166,21 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
 					use_header_bar: true,
 					modal: true });
 	dialog.add_button(_("Cancel"), Gtk.ResponseType.CANCEL);
-	const addButton = dialog.add_button(_("Select"), Gtk.ResponseType.OK);
+	dialog.add_button(_("Select"), Gtk.ResponseType.OK);
 	dialog.set_default_response(Gtk.ResponseType.CANCEL);
 
 	const chooser = new Gtk.AppChooserWidget({ show_all: true, hexpand: true, vexpand:true });
 
-	chooser.connect('application-activated', (w, appInfo) => {
+	chooser.connect('application-activated', (_w, _appInfo) => {
 	    dialog.response(Gtk.ResponseType.OK);
 	});
-	chooser.connect('application-selected', (w, appInfo) => {
+	chooser.connect('application-selected', (_w, _appInfo) => {
 	    dialog.set_default_response(Gtk.ResponseType.OK);
 	});
 	dialog.get_content_area().append(chooser);
 
-	dialog.connect('response', (dialog, id) => {
-	    if (id == Gtk.ResponseType.OK) {
+	dialog.connect('response', (dialog_p, id) => {
+	    if (id === Gtk.ResponseType.OK) {
 		const chosen_app_id = chooser.get_app_info().get_id();
 		settings.set_string('terminal-application', chosen_app_id);
 		if (chosen_app_id in ArgumentsForTerminalApp) {
@@ -190,7 +189,7 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
 		}
 	    }
 
-	    dialog.destroy();
+	    dialog_p.destroy();
 	});
 	dialog.show();
     }
@@ -198,7 +197,7 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
     _on_terminal_application_change(settings, term_app_control_label, term_app_control_image) {
 	const app_desktop_file = settings.get_string('terminal-application');
 	const app_info = Gio.DesktopAppInfo.new(app_desktop_file);
-	if (app_info != null) {
+	if (app_info !== null) {
 	    term_app_control_label.label = app_info.get_display_name();
 	    term_app_control_image.gicon = app_info.get_icon();
 	} else {
