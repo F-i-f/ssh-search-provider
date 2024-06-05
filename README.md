@@ -141,7 +141,7 @@ gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v16
 
 ### Requirements
 
-- [meson](http://mesonbuild.com/) v0.50.0 or later.
+- [meson](http://mesonbuild.com/) v1.4.0 or later.
 
 ### Running the build
 
