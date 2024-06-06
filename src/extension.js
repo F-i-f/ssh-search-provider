@@ -121,7 +121,7 @@ class HostsSourceFile {
                     event_type +
                     ')'
             );
-            let queryinfo;
+            let queryinfo = null;
             try {
                 queryinfo = this._canonicalFile.query_info('standard', 0, null);
             } catch (ex) {
