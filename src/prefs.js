@@ -25,7 +25,7 @@ import Gtk from 'gi://Gtk';
 import * as Logger from './logger.js';
 
 const ArgumentsForTerminalApp = {
-    'guake.desktop': {args: '-n new -e', single: true},
+    'guake.desktop': {args: '-n new --show -e', single: true},
     'rxvt.desktop': {args: '-e', single: false},
     'org.gnome.Console.desktop': {args: '--', single: false},
     'org.gnome.Terminal.desktop': {args: '--', single: false},
