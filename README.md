@@ -1,5 +1,9 @@
-SSH Search Provider Reborn
-===========================
+<IMG SRC="docs/logo.png" WIDTH="28px" HEIGHT="28px" ALT="Logo"/>&nbsp;SSH Search Provider Reborn
+=================================================================================================
+
+[<IMG
+SRC="https://raw.githubusercontent.com/F-i-f/meson-gse/refs/heads/master/resources/get-it-on-ego.svg"
+HEIGHT="100px" ALT="Get it on Gnome Extensions"/>](https://extensions.gnome.org/extension/1714/ssh-search-provider-reborn/)
 
 A Gnome Shell extension which searches the ssh config and known_hosts
 file and provides the found ssh connections in your shell overview.
@@ -389,5 +393,7 @@ Bugs fixed:
  -->
 <!--  LocalWords:  getSettings initTranslations ExtensionUtils gse's
  -->
-<!--  LocalWords:  js102 js91 Westerhuis eslint
+<!--  LocalWords:  js102 js91 Westerhuis eslint IMG SRC 28px nbsp
+ -->
+<!--  LocalWords:  100px
  -->
