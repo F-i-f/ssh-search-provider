@@ -213,7 +213,7 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
             label:
                 '<span size="small">' +
                 _(
-                    'Copyright © 2017-2024 Philippe Troin (<a href="https://github.com/F-i-f">F-i-f</a> on GitHub)'
+                    'Copyright © 2017-2025 Philippe Troin (<a href="https://github.com/F-i-f">F-i-f</a> on GitHub)'
                 ) +
                 '</span>\n<span size="small">' +
                 _('Copyright © 2013 Bernd Schlapsi') +
