@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ssh-search-provider\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-05 16:27-0700\n"
-"PO-Revision-Date: 2024-01-09 12:45-0800\n"
+"POT-Creation-Date: 2025-02-12 02:47-0800\n"
+"PO-Revision-Date: 2025-02-12 02:47-0800\n"
 "Last-Translator: Philippe Troin <F-i-f @ github>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -15,55 +15,55 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/extension.js:362
+#: src/extension.js:363
 msgid "SSH"
 msgstr "SSH"
 
-#: src/prefs.js:60
+#: src/prefs.js:61
 msgid "SSH Search Provider Reborn"
 msgstr "Recherche de connections SSH renée"
 
-#: src/prefs.js:73
+#: src/prefs.js:74
 msgid "Version"
 msgstr "Version"
 
-#: src/prefs.js:106
+#: src/prefs.js:107
 msgid "Terminal Application:"
 msgstr "Émulateur de terminal :"
 
-#: src/prefs.js:149
+#: src/prefs.js:150
 msgid "Arguments:"
 msgstr "Arguments :"
 
-#: src/prefs.js:172
+#: src/prefs.js:173
 msgid "Pass SSH command line as a single argument:"
 msgstr "Passer la ligne de commande SSH en un unique argument :"
 
-#: src/prefs.js:193
+#: src/prefs.js:194
 msgid "Debug:"
 msgstr "Débogage :"
 
-#: src/prefs.js:215
+#: src/prefs.js:216
 msgid ""
-"Copyright © 2017-2024 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
+"Copyright © 2017-2025 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
 "i-f</a> on GitHub)"
 msgstr ""
-"Copyright © 2017-2024 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
+"Copyright © 2017-2025 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
 "i-f</a> sur GitHub)"
 
-#: src/prefs.js:218
+#: src/prefs.js:219
 msgid "Copyright © 2013 Bernd Schlapsi"
 msgstr "Copyright © 2013 Bernd Schlapsi"
 
-#: src/prefs.js:238
+#: src/prefs.js:239
 msgid "Choose Terminal Emulator"
 msgstr "Choisir un émulateur de terminal"
 
-#: src/prefs.js:243
+#: src/prefs.js:244
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/prefs.js:244
+#: src/prefs.js:245
 msgid "Select"
 msgstr "Choisir"
 
