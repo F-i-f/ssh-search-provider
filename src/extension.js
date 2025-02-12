@@ -1,5 +1,6 @@
+// -*- indent-tabs-mode: nil; -*-
 // Ssh Search Provider for Gnome Shell
-// Copyright (C) 2017-2024 Philippe Troin (F-i-f on Github)
+// Copyright (C) 2017-2025 Philippe Troin (F-i-f on Github)
 // Copyright (c) 2013 Bernd Schlapsi
 //
 // This program is free software: you can redistribute it and/or modify
@@ -766,7 +767,3 @@ export default class SshSearchProviderExtension extends Extension {
         this._logger = null;
     }
 }
-
-// Local variables:
-// indent-tabs-mode: nil
-// End:
