@@ -603,7 +603,7 @@ class SshSearchProvider {
     _getDefaultTerminal() {
         if (this.appInfo !== null) {
             return {
-                exec: this.appInfo.get_string('Exec'),
+                exec: this.appInfo.get_executable(),
                 args: this._settings.get_string(
                     'terminal-application-arguments'
                 ),
