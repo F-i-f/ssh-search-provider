@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the ssh-search-provider package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ssh-search-provider\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-12 02:47-0800\n"
+"PO-Revision-Date: 2025-09-11 19:50+0300\n"
+"Last-Translator: Fraxinus Acer\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#: src/extension.js:363
+msgid "SSH"
+msgstr "SSH"
+
+#: src/prefs.js:61
+msgid "SSH Search Provider Reborn"
+msgstr "Возрожденный поиск провайдеров SSH"
+
+#: src/prefs.js:74
+msgid "Version"
+msgstr "Версия"
+
+#: src/prefs.js:107
+msgid "Terminal Application:"
+msgstr "Приложение терминала:"
+
+#: src/prefs.js:150
+msgid "Arguments:"
+msgstr "Аргументы:"
+
+#: src/prefs.js:173
+msgid "Pass SSH command line as a single argument:"
+msgstr "Передача в командную строку SSH единственным аргументом:"
+
+#: src/prefs.js:194
+msgid "Debug:"
+msgstr "Отладка:"
+
+#: src/prefs.js:216
+msgid ""
+"Copyright © 2017-2025 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
+"i-f</a> on GitHub)"
+msgstr ""
+"Авторские права © 2017-2025 Philippe Troin (<a href=\"https://github.com/F-i-"
+"f\">F-i-f</a> on GitHub)"
+
+#: src/prefs.js:219
+msgid "Copyright © 2013 Bernd Schlapsi"
+msgstr "Авторские права © 2013 Bernd Schlapsi"
+
+#: src/prefs.js:239
+msgid "Choose Terminal Emulator"
+msgstr "Закрыть эмулятор терминала"
+
+#: src/prefs.js:244
+msgid "Cancel"
+msgstr "Отмена"
+
+#: src/prefs.js:245
+msgid "Select"
+msgstr "Выбор"
+
+#: schemas/org.gnome.shell.extensions.ssh-search-provider.gschema.xml:7
+msgid "Terminal application."
+msgstr "Приложение терминала."
+
+#: schemas/org.gnome.shell.extensions.ssh-search-provider.gschema.xml:8
+msgid "The Terminal Application used to launch new SSH sessions with."
+msgstr "Приложение терминала, с помощью которого запускаются новые сеансы SSH."
+
+#: schemas/org.gnome.shell.extensions.ssh-search-provider.gschema.xml:13
+msgid "Terminal application arguments."
+msgstr "Аргументы приложению терминала."
+
+#: schemas/org.gnome.shell.extensions.ssh-search-provider.gschema.xml:14
+msgid ""
+"The arguments passed to the Terminal Application. The command \"ssh [-p "
+"<port>] [user@]<host>\" is appended after the provided arguments."
+msgstr ""
+"Аргументы передающиеся в приложение терминала. После приведенных аргументов "
+"добавляется команда \"ssh [-p <порт>] [пользователь@]<хост>\"."
+
+#: schemas/org.gnome.shell.extensions.ssh-search-provider.gschema.xml:20
+msgid "SSH command line is passed as a single argument."
+msgstr "Командная строка SSH передается в качестве единственного аргумента."
+
+#: schemas/org.gnome.shell.extensions.ssh-search-provider.gschema.xml:21
+msgid ""
+"Whether or not the \"ssh [-p <port>] [user@]<host>\" command line is "
+"appended as a single argument. If not, the command line will be broken up "
+"and passed as multiple arguments. Depends on the Terminal Emulator "
+"Application used."
+msgstr ""
+"Будет ли командная строка \"ssh [-p <порт>] [пользователь@]<хост>\" "
+"добавлена в качестве единственного аргумента. Если нет, то командная строка "
+"будет разделена и передана в виде нескольких аргументов. Зависит от "
+"используемого приложения-эмулятора терминала."
+
+#: schemas/org.gnome.shell.extensions.ssh-search-provider.gschema.xml:29
+msgid "Debugging."
+msgstr "Отладка."
+
+#: schemas/org.gnome.shell.extensions.ssh-search-provider.gschema.xml:30
+msgid "Enable debugging for the extension."
+msgstr "Включить отладку для приложения."
