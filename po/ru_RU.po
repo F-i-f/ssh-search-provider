@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the ssh-search-provider package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ssh-search-provider\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 02:47-0800\n"
-"PO-Revision-Date: 2025-09-11 19:50+0300\n"
+"POT-Creation-Date: 2026-02-19 22:18-0800\n"
+"PO-Revision-Date: 2026-02-19 22:19-0800\n"
 "Last-Translator: Fraxinus Acer\n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -18,55 +17,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.6\n"
 
-#: src/extension.js:363
+#: src/extension.js:301
 msgid "SSH"
 msgstr "SSH"
 
-#: src/prefs.js:61
+#: src/prefs.js:73
 msgid "SSH Search Provider Reborn"
 msgstr "Возрожденный поиск провайдеров SSH"
 
-#: src/prefs.js:74
+#: src/prefs.js:83
 msgid "Version"
 msgstr "Версия"
 
-#: src/prefs.js:107
+#: src/prefs.js:108
 msgid "Terminal Application:"
 msgstr "Приложение терминала:"
 
-#: src/prefs.js:150
+#: src/prefs.js:151
 msgid "Arguments:"
 msgstr "Аргументы:"
 
-#: src/prefs.js:173
+#: src/prefs.js:174
 msgid "Pass SSH command line as a single argument:"
 msgstr "Передача в командную строку SSH единственным аргументом:"
 
-#: src/prefs.js:194
+#: src/prefs.js:195
 msgid "Debug:"
 msgstr "Отладка:"
 
-#: src/prefs.js:216
+#: src/prefs.js:214
 msgid ""
-"Copyright © 2017-2025 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
+"Copyright © 2017-2026 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
 "i-f</a> on GitHub)"
 msgstr ""
-"Авторские права © 2017-2025 Philippe Troin (<a href=\"https://github.com/F-i-"
+"Авторские права © 2017-2026 Philippe Troin (<a href=\"https://github.com/F-i-"
 "f\">F-i-f</a> on GitHub)"
 
-#: src/prefs.js:219
+#: src/prefs.js:215
 msgid "Copyright © 2013 Bernd Schlapsi"
 msgstr "Авторские права © 2013 Bernd Schlapsi"
 
-#: src/prefs.js:239
+#: src/prefs.js:234
 msgid "Choose Terminal Emulator"
 msgstr "Закрыть эмулятор терминала"
 
-#: src/prefs.js:244
+#: src/prefs.js:239
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/prefs.js:245
+#: src/prefs.js:240
 msgid "Select"
 msgstr "Выбор"
 

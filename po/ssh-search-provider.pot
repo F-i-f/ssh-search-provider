@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ssh-search-provider\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 02:47-0800\n"
+"POT-Creation-Date: 2026-02-19 22:18-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,53 +17,53 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/extension.js:363
+#: src/extension.js:301
 msgid "SSH"
 msgstr ""
 
-#: src/prefs.js:61
+#: src/prefs.js:73
 msgid "SSH Search Provider Reborn"
 msgstr ""
 
-#: src/prefs.js:74
+#: src/prefs.js:83
 msgid "Version"
 msgstr ""
 
-#: src/prefs.js:107
+#: src/prefs.js:108
 msgid "Terminal Application:"
 msgstr ""
 
-#: src/prefs.js:150
+#: src/prefs.js:151
 msgid "Arguments:"
 msgstr ""
 
-#: src/prefs.js:173
+#: src/prefs.js:174
 msgid "Pass SSH command line as a single argument:"
 msgstr ""
 
-#: src/prefs.js:194
+#: src/prefs.js:195
 msgid "Debug:"
 msgstr ""
 
-#: src/prefs.js:216
+#: src/prefs.js:214
 msgid ""
-"Copyright © 2017-2025 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
+"Copyright © 2017-2026 Philippe Troin (<a href=\"https://github.com/F-i-f\">F-"
 "i-f</a> on GitHub)"
 msgstr ""
 
-#: src/prefs.js:219
+#: src/prefs.js:215
 msgid "Copyright © 2013 Bernd Schlapsi"
 msgstr ""
 
-#: src/prefs.js:239
+#: src/prefs.js:234
 msgid "Choose Terminal Emulator"
 msgstr ""
 
-#: src/prefs.js:244
+#: src/prefs.js:239
 msgid "Cancel"
 msgstr ""
 
-#: src/prefs.js:245
+#: src/prefs.js:240
 msgid "Select"
 msgstr ""
 
