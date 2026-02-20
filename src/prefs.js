@@ -211,7 +211,7 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
 
         const copyrightLabel = new Gtk.Label({
             use_markup: true,
-            label: `<span size="small">${_('Copyright © 2017-2025 Philippe Troin (<a href="https://github.com/F-i-f">F-i-f</a> on GitHub)')}</span>\n` +
+            label: `<span size="small">${_('Copyright © 2017-2026 Philippe Troin (<a href="https://github.com/F-i-f">F-i-f</a> on GitHub)')}</span>\n` +
                 `<span size="small">${_('Copyright © 2013 Bernd Schlapsi')}</span>`,
             hexpand: true,
             halign: Gtk.Align.CENTER,
