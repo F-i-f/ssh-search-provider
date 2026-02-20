@@ -1,6 +1,6 @@
 // -*- indent-tabs-mode: nil; -*-
 // Ssh Search Provider for Gnome Shell
-// Copyright (C) 2017-2025 Philippe Troin (F-i-f on Github)
+// Copyright (C) 2017-2026 Philippe Troin (F-i-f on Github)
 // Copyright (c) 2013 Bernd Schlapsi
 //
 // This program is free software: you can redistribute it and/or modify
@@ -93,10 +93,9 @@ class HostsSourceFile {
     _changeLinkTarget(target) {
         this._symlinkTarget = target;
         this._path = this._symlinkTarget;
-        if (this._path[0] !== '/') {
-            this._path =
-                this._symlinkFile.get_parent().get_path() + '/' + this._path;
-        }
+        if (this._path[0] !== '/')
+            this._path = `${this._symlinkFile.get_parent().get_path()}/{this._path}`;
+
         this._file = Gio.file_new_for_path(this._path);
         this._fileChangeMonitor = this._file.monitor_file(
             Gio.FileMonitorFlags.NONE,
@@ -108,51 +107,26 @@ class HostsSourceFile {
         );
     }
 
-    onSymlinkChange(filemonitor, file, other_file, event_type) {
+    onSymlinkChange(filemonitor, file, otherFile, eventType) {
         if (
             (this._symlinkFile === null ||
                 file.get_path() === this._symlinkFile.get_path()) &&
-            (event_type === Gio.FileMonitorEvent.CHANGES_DONE_HINT ||
-                event_type === Gio.FileMonitorEvent.DELETED)
+            (eventType === Gio.FileMonitorEvent.CHANGES_DONE_HINT ||
+                eventType === Gio.FileMonitorEvent.DELETED)
         ) {
-            this._logger.log_debug(
-                'HostsSourceFile.onSymlinkChange(' +
-                    file.get_path() +
-                    ', ' +
-                    event_type +
-                    ')'
-            );
+            this._logger.log_debug(`HostsSourceFile.onSymlinkChange(${file.get_path()}, ${eventType})`);
             let queryinfo = null;
             try {
                 queryinfo = this._canonicalFile.query_info('standard', 0, null);
             } catch (ex) {
-                this._logger.log_debug(
-                    'HostsSourceFile.onSymlinkChange(' +
-                        file.get_path() +
-                        '): ' +
-                        "file doesn't exist: " +
-                        ex
-                );
+                this._logger.log_debug(`HostsSourceFile.onSymlinkChange(${file.get_path()}): file doesn't exist: ${ex}`);
             }
             if (queryinfo !== null && queryinfo.get_is_symlink()) {
-                let curLinkTarget = queryinfo.get_symlink_target();
+                const curLinkTarget = queryinfo.get_symlink_target();
                 if (curLinkTarget === this._symlinkTarget) {
-                    this._logger.log_debug(
-                        'HostsSourceFile.onSymlinkChange(' +
-                            file.get_path() +
-                            '): ' +
-                            'symlink target still ' +
-                            this._symlinkTarget
-                    );
+                    this._logger.log_debug(`HostsSourceFile.onSymlinkChange(${file.get_path()}): symlink target still ${this._symlinkTarget}`);
                 } else if (this._symlinkTarget === null) {
-                    this._logger.log_debug(
-                        'HostsSourceFile.onSymlinkChange(' +
-                            file.get_path() +
-                            '): ' +
-                            'changed from regular to symlink to ' +
-                            curLinkTarget
-                    );
-
+                    this._logger.log_debug(`HostsSourceFile.onSymlinkChange(${file.get_path()}): changed from regular to symlink to ${curLinkTarget}`);
                     this._fileChangeMonitor.disconnect(this._fileChangeSignal);
                     this._symlinkPath = this._path;
                     this._symlinkFile = this._file;
@@ -165,26 +139,13 @@ class HostsSourceFile {
 
                     this._changeLinkTarget(curLinkTarget);
                 } else {
-                    this._logger.log_debug(
-                        'HostsSourceFile.onSymlinkChange(' +
-                            file.get_path() +
-                            '): ' +
-                            'symlink target changed from ' +
-                            this._symlinkTarget +
-                            ' to ' +
-                            curLinkTarget
-                    );
-
+                    this._logger.log_debug(`HostsSourceFile.onSymlinkChange(${file.get_path()}): symlink target changed from ${this._symlinkTarget} to ${curLinkTarget}`);
                     this._fileChangeMonitor.disconnect(this._fileChangeSignal);
                     this._fileChangeMonitor.cancel();
 
                     this._changeLinkTarget(curLinkTarget);
 
-                    this._logger.log_debug(
-                        'HostsSourceFile.onSymlinkChange(' +
-                            file.get_path() +
-                            '): triggering onFileChange()'
-                    );
+                    this._logger.log_debug(`HostsSourceFile.onSymlinkChange(${file.get_path()}): triggering onFileChange()`);
                     this.onFileChange(
                         this._fileChangeMonitor,
                         this._file,
@@ -192,106 +153,71 @@ class HostsSourceFile {
                         Gio.FileMonitorEvent.CHANGES_DONE_HINT
                     );
                 }
+            } else if (this._symlinkTarget === null) {
+                this._logger.log_debug(`HostsSourceFile.onSymlinkChange(${file.get_path()}): still not a symlink`);
             } else {
-                if (this._symlinkTarget === null) {
-                    this._logger.log_debug(
-                        'HostsSourceFile.onSymlinkChange(' +
-                            file.get_path() +
-                            '): ' +
-                            'still not a symlink'
-                    );
-                } else {
-                    this._logger.log_debug(
-                        'HostsSourceFile.onSymlinkChange(' +
-                            file.get_path() +
-                            '): ' +
-                            'changed from symlink to regular'
-                    );
+                this._logger.log_debug(`HostsSourceFile.onSymlinkChange(${file.get_path()}): changed from symlink to regular`);
 
-                    this._fileChangeMonitor.disconnect(this._fileChangeSignal);
-                    this._fileChangeMonitor.cancel();
+                this._fileChangeMonitor.disconnect(this._fileChangeSignal);
+                this._fileChangeMonitor.cancel();
 
-                    this._symlinkChangeMonitor.disconnect(
-                        this._symlinkChangeSignal
-                    );
+                this._symlinkChangeMonitor.disconnect(
+                    this._symlinkChangeSignal
+                );
 
-                    this._path = this._symlinkPath;
-                    this._file = this._symlinkFile;
-                    this._fileChangeMonitor = this._symlinkChangeMonitor;
+                this._path = this._symlinkPath;
+                this._file = this._symlinkFile;
+                this._fileChangeMonitor = this._symlinkChangeMonitor;
 
-                    this._symlinkTarget = null;
-                    this._symlinkFile = null;
-                    this._symlinkPath = null;
-                    this._symlinkChangeMonitor = null;
-                    this._symlinkChangeSignal = null;
+                this._symlinkTarget = null;
+                this._symlinkFile = null;
+                this._symlinkPath = null;
+                this._symlinkChangeMonitor = null;
+                this._symlinkChangeSignal = null;
 
-                    this._fileChangeMonitor.connect(
-                        'changed',
-                        this.onFileChange.bind(this)
-                    );
-                    this._logger.log_debug(
-                        'HostsSourceFile.onSymlinkChange(' +
-                            file.get_path() +
-                            '): triggering onFileChange()'
-                    );
-                    this.onFileChange(
-                        this._fileChangeMonitor,
-                        this._file,
-                        null,
-                        Gio.FileMonitorEvent.CHANGES_DONE_HINT
-                    );
-                }
+                this._fileChangeMonitor.connect(
+                    'changed',
+                    this.onFileChange.bind(this)
+                );
+                this._logger.log_debug(`HostsSourceFile.onSymlinkChange(${file.get_path()}): triggering onFileChange()`);
+                this.onFileChange(
+                    this._fileChangeMonitor,
+                    this._file,
+                    null,
+                    Gio.FileMonitorEvent.CHANGES_DONE_HINT
+                );
             }
         }
     }
 
-    onFileChange(filemonitor, file, other_file, event_type) {
+    onFileChange(filemonitor, file, otherFile, eventType) {
         if (
             file.get_path() === this._file.get_path() &&
-            (event_type === Gio.FileMonitorEvent.CHANGES_DONE_HINT ||
-                event_type === Gio.FileMonitorEvent.DELETED)
+            (eventType === Gio.FileMonitorEvent.CHANGES_DONE_HINT ||
+                eventType === Gio.FileMonitorEvent.DELETED)
         ) {
-            this._logger.log_debug(
-                'HostsSourceFile.onFileChange(' +
-                    file.get_path() +
-                    ', ' +
-                    event_type +
-                    ')'
-            );
+            this._logger.log_debug(`HostsSourceFile.onFileChange(${file.get_path()}, ${eventType})`);
 
             if (this._symlinkTarget === null) {
-                this._logger.log_debug(
-                    'HostsSourceFile.onFileChange(' +
-                        file.get_path() +
-                        '): triggering onSymlinkChange()'
-                );
+                this._logger.log_debug(`HostsSourceFile.onFileChange(${file.get_path()}): triggering onSymlinkChange()`);
                 this.onSymlinkChange(
                     null,
                     this._canonicalFile,
                     null,
-                    event_type
+                    eventType
                 );
             }
 
-            let hosts = [];
+            const hosts = [];
             if (file.query_exists(null)) {
-                let contents = this._canonicalFile.load_contents(null);
-                let decoder = new TextDecoder();
-                let filelines = decoder.decode(contents[1]).trim().split('\n');
-                for (let i in this.parse(filelines)) {
+                const contents = this._canonicalFile.load_contents(null);
+                const decoder = new TextDecoder();
+                const filelines = decoder.decode(contents[1]).trim().split('\n');
+                for (const i in this.parse(filelines))
                     hosts.push(i);
-                }
             }
             this._hosts = hosts;
-            this._logger.log_debug(
-                'HostsSourceFile.onFileChange(' +
-                    file.get_path() +
-                    ') = ' +
-                    this._hosts.length +
-                    '[' +
-                    this._hosts +
-                    ']'
-            );
+            this._logger.log_debug(`HostsSourceFile.onFileChange(${file.get_path()}) = ${this._hosts.length}[${this._hosts}]`);
         }
     }
 }
@@ -299,19 +225,18 @@ class HostsSourceFile {
 // SSH config file
 class ConfigHostsSourceFile extends HostsSourceFile {
     parse(filelines) {
-        let hostsDict = {};
+        const hostsDict = {};
 
         // search for all lines which begins with "host"
         for (let i = 0; i < filelines.length; i++) {
-            let line = filelines[i].toString();
+            const line = filelines[i].toString();
             if (line.toLowerCase().lastIndexOf(HOST_SEARCHSTRING, 0) === 0) {
                 // read all hostnames in the host definition line
-                let hostnames = line.slice(HOST_SEARCHSTRING.length).split(' ');
+                const hostnames = line.slice(HOST_SEARCHSTRING.length).split(' ');
                 for (let j = 0; j < hostnames.length; j++) {
-                    let h = hostnames[j];
-                    if (h.indexOf('*') === -1) {
+                    const h = hostnames[j];
+                    if (h.indexOf('*') === -1)
                         hostsDict[h] = 1;
-                    }
                 }
             }
         }
@@ -323,7 +248,7 @@ class ConfigHostsSourceFile extends HostsSourceFile {
 // SSH Known hosts file
 class SshKnownHostsSourceFile extends HostsSourceFile {
     parse(filelines) {
-        let hostsDict = {};
+        const hostsDict = {};
 
         for (let i = 0; i < filelines.length; i++) {
             let hostnames = filelines[i].split(' ')[0];
@@ -336,9 +261,8 @@ class SshKnownHostsSourceFile extends HostsSourceFile {
                 (hostnames.length !== 60 || hostnames.search(',') >= 0)
             ) {
                 hostnames = hostnames.split(',');
-                for (let j = 0; j < hostnames.length; j++) {
+                for (let j = 0; j < hostnames.length; j++)
                     hostsDict[hostnames[j]] = 1;
-                }
             }
         }
 
@@ -404,9 +328,8 @@ class SshSearchProvider {
     _cleanup() {
         this._logger.log_debug('SshSearchProvider._cleanup()');
 
-        for (let i = 0; i < this._hostsSources.length; ++i) {
+        for (let i = 0; i < this._hostsSources.length; ++i)
             this._hostsSources[i].cleanup();
-        }
     }
 
     // Search API
@@ -417,17 +340,14 @@ class SshSearchProvider {
 
     _createIcon(size) {
         let icon = this.appInfo?.get_icon();
-        if (!icon) {
+        if (!icon)
             icon = Gio.icon_new_for_string('applications-other');
-        }
         return new St.Icon({gicon: icon, icon_size: size});
     }
 
-    async getResultMetas(resultIds, _cancellable) {
-        this._logger.log_debug(
-            'SshSearchProvider.getResultMetas(' + resultIds + ')'
-        );
-        let results = [];
+    getResultMetas(resultIds, _cancellable) {
+        this._logger.log_debug(`SshSearchProvider.getResultMetas(${resultIds})`);
+        const results = [];
         for (let i = 0; i < resultIds.length; ++i) {
             results.push({
                 id: resultIds[i],
@@ -439,124 +359,101 @@ class SshSearchProvider {
     }
 
     activateResult(id) {
-        this._logger.log_debug('SshSearchProvider.activateResult(' + id + ')');
-        let terminal_definition = this._getDefaultTerminal();
-        let cmd = [terminal_definition.exec];
-        cmd.push.apply(cmd, terminal_definition.args.trim().split(/\s+/));
+        this._logger.log_debug(`SshSearchProvider.activateResult(${id})`);
+        const terminalDefinition = this._getDefaultTerminal();
+        const cmd = [terminalDefinition.exec];
+        cmd.push(...terminalDefinition.args.trim().split(/\s+/));
 
         let host = id;
         let user = null;
         let port = null;
 
-        let atIndex = host.indexOf('@');
+        const atIndex = host.indexOf('@');
         if (atIndex >= 0) {
             user = host.slice(0, atIndex);
             host = host.slice(atIndex + 1);
         }
 
         if (host[0] === '[') {
-            let parts = host.slice(1).split(']:');
+            const parts = host.slice(1).split(']:');
             if (parts.length === 2) {
                 host = parts[0];
                 port = parts[1];
             }
         }
 
-        if (user !== null) {
-            host = user + '@' + host;
-        }
+        if (user !== null)
+            host = `${user}@${host}`;
 
         let sshCmd;
-        if (port === null) {
+        if (port === null)
             sshCmd = ['ssh', host];
-        } else {
+        else
             sshCmd = ['ssh', '-p', port, host];
-        }
 
-        if (terminal_definition.single) {
+        if (terminalDefinition.single)
             cmd.push(sshCmd.join(' '));
-        } else {
-            cmd.push.apply(cmd, sshCmd);
-        }
+        else
+            cmd.push(...sshCmd);
 
         // start terminal with ssh command
-        this._logger.log_debug(
-            'SshSearchProvider.activateResult(): cmd=' + cmd
-        );
+        this._logger.log_debug(`SshSearchProvider.activateResult(): cmd=${cmd}`);
         Util.spawn(cmd);
     }
 
     filterResults(providerResults, maxResults) {
-        this._logger.log_debug(
-            'SshSearchProvider.filterResults(' + maxResults + ')'
-        );
+        this._logger.log_debug(`SshSearchProvider.filterResults(${maxResults})`);
         return providerResults;
     }
 
-    async getInitialResultSet(terms, _cancellable) {
-        this._logger.log_debug(
-            'SshSearchProvider.getInitialResultSet(' + terms + ')'
-        );
+    getInitialResultSet(terms, _cancellable) {
+        this._logger.log_debug(`SshSearchProvider.getInitialResultSet(${terms})`);
 
         // check if a found host-name begins like the search-term
-        let resultsDict = {};
+        const resultsDict = {};
         this._lastSearchHadUserPart = false;
 
         for (let ti = 0; ti < terms.length; ti++) {
             let user = null;
             let host = terms[ti];
-            let host_at_sign = host.indexOf('@');
-            if (host_at_sign === 0 || host_at_sign === host.length - 1) {
+            const hostAtSign = host.indexOf('@');
+            if (hostAtSign === 0 || hostAtSign === host.length - 1) {
                 // Invalid user name or nothing after @ sign: skip search term
                 continue;
-            } else if (host_at_sign > 0) {
-                user = host.slice(0, host_at_sign);
-                host = host.slice(host_at_sign + 1);
+            } else if (hostAtSign > 0) {
+                user = host.slice(0, hostAtSign);
+                host = host.slice(hostAtSign + 1);
                 this._lastSearchHadUserPart = true;
             }
 
             for (let hsi = 0; hsi < this._hostsSources.length; ++hsi) {
-                let hostnames = this._hostsSources[hsi].getHosts();
+                const hostnames = this._hostsSources[hsi].getHosts();
                 for (let i = 0; i < hostnames.length; i++) {
                     if (hostnames[i].indexOf(host) >= 0) {
-                        let ssh_name = hostnames[i];
-                        if (user !== null) {
-                            ssh_name = user + '@' + ssh_name;
-                        }
-                        resultsDict[ssh_name] = 1;
+                        let sshName = hostnames[i];
+                        if (user !== null)
+                            sshName = `${user}@${sshName}`;
+                        resultsDict[sshName] = 1;
                     }
                 }
             }
         }
 
-        let results = [];
-        for (let i in resultsDict) {
+        const results = [];
+        for (const i in resultsDict)
             results.push(i);
-        }
 
-        this._logger.log_debug(
-            'SshSearchProvider.getInitialResultSet(' +
-                terms +
-                ') = ' +
-                results.length +
-                '[' +
-                results +
-                ']'
-        );
+        this._logger.log_debug(`SshSearchProvider.getInitialResultSet(${terms}) = ${results.length}[${results}]`);
 
         return results;
     }
 
-    async getSubsearchResultSet(previousResults, terms, cancellable) {
-        this._logger.log_debug(
-            'SshSearchProvider.getSubsearchResultSet(' + terms + ')'
-        );
-        let results;
-
-        results = [];
+    getSubsearchResultSet(previousResults, terms, cancellable) {
+        this._logger.log_debug(`SshSearchProvider.getSubsearchResultSet(${terms})`);
+        const results = [];
         for (let ti = 0; ti < terms.length; ti++) {
-            let term = terms[ti];
-            let termAtIndex = term.indexOf('@');
+            const term = terms[ti];
+            const termAtIndex = term.indexOf('@');
             if (termAtIndex === term.length - 1) {
                 // Skip term if nothing is present after the @ sign.
                 continue;
@@ -570,32 +467,23 @@ class SshSearchProvider {
                 return this.getInitialResultSet(terms, cancellable);
             }
             let termHost = term;
-            if (termAtIndex >= 0) {
+            if (termAtIndex >= 0)
                 termHost = term.slice(termAtIndex + 1);
-            }
+
             for (let i = 0; i < previousResults.length; ++i) {
-                let previousResult = previousResults[i];
-                let previousResultAtIndex = previousResult.indexOf('@');
+                const previousResult = previousResults[i];
+                const previousResultAtIndex = previousResult.indexOf('@');
                 let previousHost = previousResult;
                 if (previousResultAtIndex >= 0) {
                     previousHost = previousResult.slice(
                         previousResultAtIndex + 1
                     );
                 }
-                if (previousHost.indexOf(termHost) >= 0) {
+                if (previousHost.indexOf(termHost) >= 0)
                     results.push(previousResult);
-                }
             }
         }
-        this._logger.log_debug(
-            'SshSearchProvider.getSubsearchResultSet(' +
-                terms +
-                ') = ' +
-                results.length +
-                '[' +
-                results +
-                ']'
-        );
+        this._logger.log_debug(`SshSearchProvider.getSubsearchResultSet(${terms}) = ${results.length}[${results}]`);
         return results;
     }
 
@@ -614,25 +502,19 @@ class SshSearchProvider {
         }
 
         try {
-            if (
-                Gio.Settings.list_schemas().indexOf(DEFAULT_TERMINAL_SCHEMA) ===
-                -1
-            ) {
+            if (Gio.Settings.list_schemas().indexOf(DEFAULT_TERMINAL_SCHEMA) === -1)
                 return FALLBACK_TERMINAL;
-            }
 
-            let terminal_setting = new Gio.Settings({
+            const terminalSetting = new Gio.Settings({
                 schema: DEFAULT_TERMINAL_SCHEMA,
             });
             return {
-                exec: terminal_setting.get_string(DEFAULT_TERMINAL_KEY),
-                args: terminal_setting.get_string(DEFAULT_TERMINAL_ARGS_KEY),
+                exec: terminalSetting.get_string(DEFAULT_TERMINAL_KEY),
+                args: terminalSetting.get_string(DEFAULT_TERMINAL_ARGS_KEY),
                 single: false,
             };
         } catch (ex) {
-            this._logger.log_debug(
-                'SshSearchProvider._getDefaultTerminal(): ' + ex
-            );
+            this._logger.log_debug(`SshSearchProvider._getDefaultTerminal(): ${ex}`);
             return FALLBACK_TERMINAL;
         }
     }
@@ -653,10 +535,7 @@ export default class SshSearchProviderExtension extends Extension {
 
     _on_debug_change() {
         this._logger.set_debug(this._settings.get_boolean('debug'));
-        this._logger.log_debug(
-            'SshSearchProviderExtension._on_debug_change(): debug = ' +
-                this._logger.get_debug()
-        );
+        this._logger.log_debug(`SshSearchProviderExtension._on_debug_change(): debug = ${this._logger.get_debug()}`);
     }
 
     _on_terminal_application_change() {
@@ -685,9 +564,8 @@ export default class SshSearchProviderExtension extends Extension {
             );
         }
 
-        if (!this._settings) {
+        if (!this._settings)
             this._settings = this.getSettings();
-        }
 
         // Gnome-Shell 40 compatibility
         if (Main.overview._overview.controls !== undefined) {
@@ -718,11 +596,11 @@ export default class SshSearchProviderExtension extends Extension {
 
         this._delayedRegistration = GLib.idle_add(
             GLib.PRIORITY_DEFAULT_IDLE,
-            function () {
+            () => {
                 this._registerProvider();
                 this._delayedRegistration = null;
                 return GLib.SOURCE_REMOVE;
-            }.bind(this)
+            }
         );
 
         this._logger.log_debug('extension enabled');

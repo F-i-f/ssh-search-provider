@@ -1,6 +1,6 @@
 // -*- indent-tabs-mode: nil; -*-
 // Ssh Search Provider for Gnome Shell
-// Copyright (C) 2019-2025 Philippe Troin (F-i-f on Github)
+// Copyright (C) 2019-2026 Philippe Troin (F-i-f on Github)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,175 +54,156 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
 
         let ypos = 1;
 
-        const title_label = new Gtk.Label({
+        const titleLabel = new Gtk.Label({
             use_markup: true,
-            label:
-                '<span size="large" weight="heavy">' +
-                _('SSH Search Provider Reborn') +
-                '</span>',
+            label: `<span size="large" weight="heavy">${_('SSH Search Provider Reborn')}</span>`,
             hexpand: true,
             halign: Gtk.Align.CENTER,
         });
-        grid.attach(title_label, 1, ypos, 2, 1);
+        grid.attach(titleLabel, 1, ypos, 2, 1);
 
         ypos += 1;
 
-        const version_label = new Gtk.Label({
+        const versionLabel = new Gtk.Label({
             use_markup: true,
-            label:
-                '<span size="small">' +
-                _('Version') +
-                ' ' +
-                logger.get_version() +
-                '</span>',
+            label: `<span size="small">${_('Version')} ${logger.get_version()}</span>`,
             hexpand: true,
             halign: Gtk.Align.CENTER,
         });
-        grid.attach(version_label, 1, ypos, 2, 1);
+        grid.attach(versionLabel, 1, ypos, 2, 1);
 
         ypos += 1;
 
-        const link_label = new Gtk.Label({
+        const linkLabel = new Gtk.Label({
             use_markup: true,
-            label:
-                '<span size="small"><a href="' +
-                this.metadata.url +
-                '">' +
-                this.metadata.url +
-                '</a></span>',
+            label: `<span size="small"><a href="${this.metadata.url}">${this.metadata.url}</a></span>`,
             hexpand: true,
             halign: Gtk.Align.CENTER,
             margin_bottom: grid.margin_bottom,
         });
-        grid.attach(link_label, 1, ypos, 2, 1);
+        grid.attach(linkLabel, 1, ypos, 2, 1);
 
         ypos += 1;
 
-        const term_app_descr = _(
+        const termAppDescr = _(
             settings.settings_schema
                 .get_key('terminal-application')
                 .get_description()
         );
-        const term_app_label = new Gtk.Label({
+        const termAppLabel = new Gtk.Label({
             label: _('Terminal Application:'),
             halign: Gtk.Align.START,
         });
-        term_app_label.set_tooltip_text(term_app_descr);
+        termAppLabel.set_tooltip_text(termAppDescr);
 
-        const term_app_control_image = new Gtk.Image();
-        const term_app_control_label = new Gtk.Label();
+        const termAppControlImage = new Gtk.Image();
+        const termAppControlLabel = new Gtk.Label();
         this._on_terminal_application_change(
             settings,
-            term_app_control_label,
-            term_app_control_image
+            termAppControlLabel,
+            termAppControlImage
         );
-        const term_app_control_box = new Gtk.Box({
+        const termAppControlBox = new Gtk.Box({
             orientation: Gtk.Orientation.HORIZONTAL,
             homogeneous: false,
             spacing: 10,
         });
-        term_app_control_box.append(term_app_control_image);
-        term_app_control_box.append(term_app_control_label);
-        const term_app_control = new Gtk.Button({child: term_app_control_box});
-        term_app_control.set_tooltip_text(term_app_descr);
-        term_app_control.connect('clicked', () => {
+        termAppControlBox.append(termAppControlImage);
+        termAppControlBox.append(termAppControlLabel);
+        const termAppControl = new Gtk.Button({child: termAppControlBox});
+        termAppControl.set_tooltip_text(termAppDescr);
+        termAppControl.connect('clicked', () => {
             this._on_click_terminal_app(settings, grid);
         });
 
-        grid.attach(term_app_label, 1, ypos, 1, 1);
-        grid.attach(term_app_control, 2, ypos, 1, 1);
+        grid.attach(termAppLabel, 1, ypos, 1, 1);
+        grid.attach(termAppControl, 2, ypos, 1, 1);
         settings.connect('changed::terminal-application', () => {
             this._on_terminal_application_change(
                 settings,
-                term_app_control_label,
-                term_app_control_image
+                termAppControlLabel,
+                termAppControlImage
             );
         });
 
         ypos += 1;
 
-        const term_app_args_descr = _(
+        const termAppArgsDescr = _(
             settings.settings_schema
                 .get_key('terminal-application-arguments')
                 .get_description()
         );
-        const term_app_args_label = new Gtk.Label({
+        const termAppArgsLabel = new Gtk.Label({
             label: _('Arguments:'),
             halign: Gtk.Align.START,
         });
-        term_app_args_label.set_tooltip_text(term_app_args_descr);
-        const term_app_args_control = new Gtk.Entry();
-        term_app_args_control.set_tooltip_text(term_app_args_descr);
-        grid.attach(term_app_args_label, 1, ypos, 1, 1);
-        grid.attach(term_app_args_control, 2, ypos, 1, 1);
+        termAppArgsLabel.set_tooltip_text(termAppArgsDescr);
+        const termAppArgsControl = new Gtk.Entry();
+        termAppArgsControl.set_tooltip_text(termAppArgsDescr);
+        grid.attach(termAppArgsLabel, 1, ypos, 1, 1);
+        grid.attach(termAppArgsControl, 2, ypos, 1, 1);
         settings.bind(
             'terminal-application-arguments',
-            term_app_args_control,
+            termAppArgsControl,
             'text',
             Gio.SettingsBindFlags.DEFAULT
         );
 
         ypos += 1;
 
-        const ssh_single_arg_descr = _(
+        const sshSingleArgDescr = _(
             settings.settings_schema
                 .get_key('ssh-command-single-argument')
                 .get_description()
         );
-        const ssh_single_arg_label = new Gtk.Label({
+        const sshSingleArgLabel = new Gtk.Label({
             label: _('Pass SSH command line as a single argument:'),
             halign: Gtk.Align.START,
         });
-        ssh_single_arg_label.set_tooltip_text(ssh_single_arg_descr);
-        const ssh_single_arg_control = new Gtk.Switch({halign: Gtk.Align.END});
-        ssh_single_arg_control.set_tooltip_text(ssh_single_arg_descr);
-        grid.attach(ssh_single_arg_label, 1, ypos, 1, 1);
-        grid.attach(ssh_single_arg_control, 2, ypos, 1, 1);
+        sshSingleArgLabel.set_tooltip_text(sshSingleArgDescr);
+        const sshSingleArgControl = new Gtk.Switch({halign: Gtk.Align.END});
+        sshSingleArgControl.set_tooltip_text(sshSingleArgDescr);
+        grid.attach(sshSingleArgLabel, 1, ypos, 1, 1);
+        grid.attach(sshSingleArgControl, 2, ypos, 1, 1);
         settings.bind(
             'ssh-command-single-argument',
-            ssh_single_arg_control,
+            sshSingleArgControl,
             'active',
             Gio.SettingsBindFlags.DEFAULT
         );
 
         ypos += 1;
 
-        const debug_descr = _(
+        const debugDescr = _(
             settings.settings_schema.get_key('debug').get_description()
         );
-        const debug_label = new Gtk.Label({
+        const debugLabel = new Gtk.Label({
             label: _('Debug:'),
             halign: Gtk.Align.START,
         });
-        debug_label.set_tooltip_text(debug_descr);
-        const debug_control = new Gtk.Switch({halign: Gtk.Align.END});
-        debug_control.set_tooltip_text(debug_descr);
-        grid.attach(debug_label, 1, ypos, 1, 1);
-        grid.attach(debug_control, 2, ypos, 1, 1);
+        debugLabel.set_tooltip_text(debugDescr);
+        const debugControl = new Gtk.Switch({halign: Gtk.Align.END});
+        debugControl.set_tooltip_text(debugDescr);
+        grid.attach(debugLabel, 1, ypos, 1, 1);
+        grid.attach(debugControl, 2, ypos, 1, 1);
         settings.bind(
             'debug',
-            debug_control,
+            debugControl,
             'active',
             Gio.SettingsBindFlags.DEFAULT
         );
 
         ypos += 1;
 
-        const copyright_label = new Gtk.Label({
+        const copyrightLabel = new Gtk.Label({
             use_markup: true,
-            label:
-                '<span size="small">' +
-                _(
-                    'Copyright © 2017-2025 Philippe Troin (<a href="https://github.com/F-i-f">F-i-f</a> on GitHub)'
-                ) +
-                '</span>\n<span size="small">' +
-                _('Copyright © 2013 Bernd Schlapsi') +
-                '</span>',
+            label: `<span size="small">${_('Copyright © 2017-2025 Philippe Troin (<a href="https://github.com/F-i-f">F-i-f</a> on GitHub)')}</span>\n` +
+                `<span size="small">${_('Copyright © 2013 Bernd Schlapsi')}</span>`,
             hexpand: true,
             halign: Gtk.Align.CENTER,
             margin_top: grid.margin_top,
         });
-        grid.attach(copyright_label, 1, ypos, 2, 1);
+        grid.attach(copyrightLabel, 1, ypos, 2, 1);
 
         ypos += 1;
 
@@ -259,40 +240,40 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
         });
         dialog.get_content_area().append(chooser);
 
-        dialog.connect('response', (dialog_p, id) => {
+        dialog.connect('response', (dialogP, id) => {
             if (id === Gtk.ResponseType.OK) {
-                const chosen_app_id = chooser.get_app_info().get_id();
-                settings.set_string('terminal-application', chosen_app_id);
-                if (chosen_app_id in ArgumentsForTerminalApp) {
+                const chosenAppId = chooser.get_app_info().get_id();
+                settings.set_string('terminal-application', chosenAppId);
+                if (chosenAppId in ArgumentsForTerminalApp) {
                     settings.set_string(
                         'terminal-application-arguments',
-                        ArgumentsForTerminalApp[chosen_app_id].args
+                        ArgumentsForTerminalApp[chosenAppId].args
                     );
                     settings.set_boolean(
                         'ssh-command-single-argument',
-                        ArgumentsForTerminalApp[chosen_app_id].single
+                        ArgumentsForTerminalApp[chosenAppId].single
                     );
                 }
             }
 
-            dialog_p.destroy();
+            dialogP.destroy();
         });
         dialog.show();
     }
 
     _on_terminal_application_change(
         settings,
-        term_app_control_label,
-        term_app_control_image
+        termAppControlLabel,
+        termAppControlImage
     ) {
-        const app_desktop_file = settings.get_string('terminal-application');
-        const app_info = Gio.DesktopAppInfo.new(app_desktop_file);
-        if (app_info !== null) {
-            term_app_control_label.label = app_info.get_display_name();
-            term_app_control_image.gicon = app_info.get_icon();
+        const appDesktopFile = settings.get_string('terminal-application');
+        const appInfo = Gio.DesktopAppInfo.new(appDesktopFile);
+        if (appInfo !== null) {
+            termAppControlLabel.label = appInfo.get_display_name();
+            termAppControlImage.gicon = appInfo.get_icon();
         } else {
-            term_app_control_label.label = app_desktop_file;
-            term_app_control_image.gicon =
+            termAppControlLabel.label = appDesktopFile;
+            termAppControlImage.gicon =
                 Gio.icon_new_for_string('applications-other');
         }
     }
