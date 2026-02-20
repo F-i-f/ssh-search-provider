@@ -23,6 +23,20 @@ import Adw from 'gi://Adw';
 import Gio from 'gi://Gio';
 import Gtk from 'gi://Gtk';
 
+const loadDesktopAppInfo = async () => {
+    let gioImpl;
+    try {
+        gioImpl = await import('gi://GioUnix');
+    } catch (unused) {
+        gioImpl = await import('gi://Gio');
+    }
+    if (gioImpl?.default?.DesktopAppInfo)
+        return gioImpl.default.DesktopAppInfo;
+    else
+        throw new Error('DesktopAppInfo not found');
+};
+const DesktopAppInfo = await loadDesktopAppInfo();
+
 import * as Logger from './logger.js';
 
 const ArgumentsForTerminalApp = {
@@ -267,7 +281,7 @@ export default class SshSearchProviderSettings extends ExtensionPreferences {
         termAppControlImage
     ) {
         const appDesktopFile = settings.get_string('terminal-application');
-        const appInfo = Gio.DesktopAppInfo.new(appDesktopFile);
+        const appInfo = DesktopAppInfo.new(appDesktopFile);
         if (appInfo !== null) {
             termAppControlLabel.label = appInfo.get_display_name();
             termAppControlImage.gicon = appInfo.get_icon();

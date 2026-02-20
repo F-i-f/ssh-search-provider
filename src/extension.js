@@ -26,6 +26,20 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import St from 'gi://St';
 
+const loadDesktopAppInfo = async () => {
+    let gioImpl;
+    try {
+        gioImpl = await import('gi://GioUnix');
+    } catch (unused) {
+        gioImpl = await import('gi://Gio');
+    }
+    if (gioImpl?.default?.DesktopAppInfo)
+        return gioImpl.default.DesktopAppInfo;
+    else
+        throw new Error('DesktopAppInfo not found');
+};
+const DesktopAppInfo = await loadDesktopAppInfo();
+
 import * as Logger from './logger.js';
 
 // Settings
@@ -279,7 +293,7 @@ class SshSearchProvider {
         this._logger.log_debug('SshSearchProvider.constructor()');
 
         this.id = extension.metadata.uuid;
-        this.appInfo = Gio.DesktopAppInfo.new(
+        this.appInfo = DesktopAppInfo.new(
             this._settings.get_string('terminal-application')
         );
         if (this.appInfo !== null) {
