@@ -133,12 +133,12 @@ Install directly from the [Gnome Shell Extensions
 site](https://extensions.gnome.org/extension/1714/ssh-search-provider-reborn/).
 
 Or download the [zip
-file](https://github.com/F-i-f/ssh-search-provider/releases/download/v22/ssh-search-provider@extensions.gnome-shell.fifi.org.v22.shell-extension.zip)
+file](https://github.com/F-i-f/ssh-search-provider/releases/download/v23/ssh-search-provider@extensions.gnome-shell.fifi.org.v23.shell-extension.zip)
 from the GitHub [releases
 page](https://github.com/F-i-f/ssh-search-provider/releases) and run:
 
 ``` shell
-gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v22.shell-extension.zip
+gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v23.shell-extension.zip
 ```
 
 ## Building from source
@@ -160,6 +160,12 @@ gnome-extensions install ssh-search-provider@extensions.gnome-shell.fifi.org.v22
 - To build the extension zip files, run: `ninja -C build extension.zip`, the extension will be found under `build/extension.zip`.
 
 ## Changelog
+
+### Version 23
+#### September 5, 2026
+
+- Gnome Shell 51 compatibility.
+- Update meson-gse.
 
 ### Version 22
 #### February 18, 2026
